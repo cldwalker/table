@@ -3,17 +3,23 @@
         table.core))
 
 (deftest test-table
-  (let [t (table [["1" "2"]["3" "4"]])]
-    (is (.contains t "| 1 | 2 |"))
-    (is (.contains t "| 3 | 4 |"))
-    (is (.contains t "+---+---+"))))
+  (is (with-out-str (table [["1" "2"] ["3" "4"]]))
+      "
+      +---+---+
+      | 1 | 2 |
+      +---+---+
+      | 3 | 4 |
+      +---+---+
+      ")) 
 
+(deftest test-table-array
+  (is (table-str [["1" "2"] ["3" "4"]])
+      "
+      +---+---+
+      | 1 | 2 |
+      +---+---+
+      | 3 | 4 |
+      +---+---+
+      "))
 
-(print (table [["1" "2"]["3" "4"]]))
-
-; TODO hashes
-#_(deftest test-table
-  (let [rendered (render [{:1 3 :2 4}])]
-    (is (.contains rendered "| 1 | 2 |"))
-    (is (.contains rendered "| 3 | 4 |"))
-    (is (.contains rendered "|---+---|"))))
+;(table [["1" "2"]["3" "4"]])

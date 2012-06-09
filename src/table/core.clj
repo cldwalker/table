@@ -15,6 +15,9 @@
               (str "| " (join " | " tr) " |"))
             [spacer])))
 
-(defn table [& args]
+(defn table-str [& args]
   (apply str (join "\n" (apply render args))))
+
+(defn table [& args]
+  (print (apply table-str args)))
 
