@@ -1,12 +1,12 @@
 (ns table.core
-  (:use [clojure.string :only [join]]
-        [table.core]))
+  (:use [clojure.string :only [join]] ))
 
 (defn render [table]
-  (let [spacer (str "+-"
-                    (join "-+-"
-                          (map #(apply str (repeat (.length %) "-"))
-                               (first table)))
+  (let [spacer
+         (str "+-"
+           (join "-+-"
+             (map #(apply str (repeat (.length %) "-"))
+               (first table)))
                     "-+")]
     (concat [spacer
              (str "| " (join " | " (first table)) " |")
