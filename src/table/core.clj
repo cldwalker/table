@@ -4,7 +4,7 @@
 (defn render-rows [table]
   (let [
     fields (if (map? (first table)) (vec (keys (first table))) (first table))
-    headers (if (map? (first table)) (map #(replace-first % #"^:" "") fields) fields)
+    headers (if (map? (first table)) (map name fields) fields)
     rows (if (map? (first table))
            (map (apply juxt fields) table) (rest table))
     widths (map-indexed
