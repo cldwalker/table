@@ -43,4 +43,18 @@
       ")
     (table-str [{:a 1 :b 2} {:a 3 :b 4}]))))
 
-;(table [["1" "2"]["3" "4"] ["5", "6"]])
+(deftest test-table-width
+  (is (=
+    (unindent
+      "
+      +----+----+
+      | a  | b  |
+      +----+----+
+      | 11 | 22 |
+      | 3  | 4  |
+      +----+----+
+      ")
+    (table-str [{:a 11 :b 22} {:a 3 :b 4}]))))
+
+;(defn test-ns-hook []
+;  (test-table-width))
