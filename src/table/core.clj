@@ -11,16 +11,15 @@
              (fn [idx header]
                (apply max (count header) (map #(count (str (nth % idx))) rows)))
              headers)
-    fmts (map #(str "%-" % "s") widths)
     fmt-row (fn [row]
-              (map-indexed (fn [idx val] (format (nth fmts idx) val)) row))
+              (map-indexed
+                (fn [idx val] (format (str "%-" (nth widths idx) "s") val))
+                row))
     headers (fmt-row headers)
     border  (str "+-"
               (join "-+-"
-                (map-indexed
-                  (fn [idx header]
-                    (apply str (repeat (nth widths idx) "-")))
-                  headers))
+                (map #(apply str (repeat (.length (str %)) "-"))
+                  headers ))
               "-+")
     header [ border
       (str "| " (join " | " headers) " |")]
@@ -28,8 +27,7 @@
     (concat
       header
       [border]
-      (for [tr rows]
-        (str "| " (join " | " (fmt-row tr)) " |"))
+      (map #(str "| " (join " | " (fmt-row %)) " |") rows)
       [border])))
 
 (defn table-str [& args]
