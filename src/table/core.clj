@@ -15,19 +15,17 @@
               (map-indexed
                 (fn [idx val] (format (str "%-" (nth widths idx) "s") val))
                 row))
+    wrap-row (fn [row beg mid end] (str beg (join mid row) end))
     headers (fmt-row headers)
-    border  (str "+-"
-              (join "-+-"
-                (map #(apply str (repeat (.length (str %)) "-"))
-                  headers ))
-              "-+")
-    header [ border
-      (str "| " (join " | " headers) " |")]
-]
+    border  (wrap-row
+              (map #(apply str (repeat (.length (str %)) "-")) headers)
+              "+-" "-+-" "-+")
+    header [ border (wrap-row headers "| " " | " " |")]]
+
     (concat
       header
       [border]
-      (map #(str "| " (join " | " (fmt-row %)) " |") rows)
+      (map #(wrap-row (fmt-row %) "| " " | " " |") rows)
       [border])))
 
 (defn table-str [& args]
