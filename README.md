@@ -40,7 +40,6 @@ user=> (table [{:a 11 :b 22} {:a 3 :b 4}])
 * [doric](https://github.com/joegallo/doric) is more full-featured than print-table, supporting different formats. However it doesn't focus on features I'm interested in or have a thorough-enough test suite.
 
 ## TODO
-* Handle string keys
 * Handle mix of string and keyword keys
 * Handle sets, lists, anything seqable
 * Port features from [hirb](http://github.com/cldwalker/hirb)

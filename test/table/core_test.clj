@@ -68,5 +68,18 @@
       ")
     (table-str [[1 2] [3 4]]))))
 
+(deftest test-table-with-string-keys
+  (is (=
+    (unindent
+      "
+      +---+
+      | a |
+      +---+
+      | 1 |
+      | 2 |
+      +---+
+      ")
+      (table-str [{"a" 1} {"a" 2}]))))
+
 ;(defn test-ns-hook []
 ;  (test-table-width))
