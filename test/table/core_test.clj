@@ -6,7 +6,7 @@
 (defn unindent [string]
   (clojure.string/replace (clojure.string/trim string) #"\n\s*" "\n"))
 
-(deftest test-table
+(deftest test-table-prints-to-out
   (is (=
     (unindent
       "
@@ -18,7 +18,7 @@
       ")
     (with-out-str (table [["1" "2"] ["3" "4"]])))))
 
-(deftest test-table-array
+(deftest test-table-with-vecs
   (is (=
     (unindent
       "
@@ -30,7 +30,7 @@
       ")
     (table-str [["1" "2"] ["3" "4"]]))))
 
-(deftest test-table-map
+(deftest test-table-with-maps
   (is (=
     (unindent
       "
@@ -43,7 +43,7 @@
       ")
     (table-str [{:a 1 :b 2} {:a 3 :b 4}]))))
 
-(deftest test-table-width
+(deftest test-table-with-auto-width
   (is (=
     (unindent
       "
@@ -56,7 +56,7 @@
       ")
     (table-str [{:a 11 :b 22} {:a 3 :b 4}]))))
 
-(deftest test-table-non-string-values
+(deftest test-table-with-non-string-values
   (is (=
     (unindent
       "
@@ -80,6 +80,19 @@
       +---+
       ")
       (table-str [{"a" 1} {"a" 2}]))))
+
+(deftest test-table-with-string-or-keyword-keys
+  (is (=
+    (unindent
+      "
+      +---+
+      | a |
+      +---+
+      | 1 |
+      | 2 |
+      +---+
+      ")
+      (table-str [{"a" 1} {:a 2}]))))
 
 ;(defn test-ns-hook []
 ;  (test-table-width))
