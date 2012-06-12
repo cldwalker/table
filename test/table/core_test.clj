@@ -56,5 +56,17 @@
       ")
     (table-str [{:a 11 :b 22} {:a 3 :b 4}]))))
 
+(deftest test-table-non-string-values
+  (is (=
+    (unindent
+      "
+      +---+---+
+      | 1 | 2 |
+      +---+---+
+      | 3 | 4 |
+      +---+---+
+      ")
+    (table-str [[1 2] [3 4]]))))
+
 ;(defn test-ns-hook []
 ;  (test-table-width))

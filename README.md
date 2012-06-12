@@ -41,7 +41,7 @@ user=> (table [{:a 11 :b 22} {:a 3 :b 4}])
 
 ## TODO
 * Handle string keys
-* Handle non-string values
+* Handle mix of string and keyword keys
 * Handle sets, lists, anything seqable
 * Port features from [hirb](http://github.com/cldwalker/hirb)
   * Handle all fields from a map
