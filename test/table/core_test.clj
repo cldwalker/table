@@ -79,20 +79,20 @@
       | 2 |
       +---+
       ")
-      (table-str [{"a" 1} {"a" 2}]))))
+     (table-str [{"a" 1} {"a" 2}]))))
 
-(deftest test-table-with-string-or-keyword-keys
+(deftest test-table-with-different-keys-per-row
   (is (=
     (unindent
       "
-      +---+
-      | a |
-      +---+
-      | 1 |
-      | 2 |
-      +---+
+      +---+---+
+      | a | b |
+      +---+---+
+      | 1 |   |
+      |   | 2 |
+      +---+---+
       ")
-      (table-str [{"a" 1} {:a 2}]))))
+    (table-str [{:a 1} {:b 2}]))))
 
 ;(defn test-ns-hook []
 ;  (test-table-width))

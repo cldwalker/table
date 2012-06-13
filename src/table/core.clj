@@ -3,10 +3,10 @@
 
 (defn render-rows [table]
   (let [
-    fields (if (map? (first table)) (vec (keys (first table))) (first table))
+    fields (if (map? (first table)) (distinct (vec (flatten (map keys table)))) (first table))
     headers (map #(if (keyword? %) (name %) (str %)) fields)
     rows (if (map? (first table))
-           (map #(map (fn [k] (get % k)) (keys %)) table) (rest table))
+           (map #(map (fn [k] (get % k "")) fields) table) (rest table))
     widths (map-indexed
              (fn [idx header]
                (apply max (count header) (map #(count (str (nth % idx))) rows)))

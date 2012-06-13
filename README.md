@@ -42,7 +42,6 @@ user=> (table [{:a 11 :b 22} {:a 3 :b 4}])
 ## TODO
 * Handle sets, lists, anything seqable
 * Port features from [hirb](http://github.com/cldwalker/hirb)
-  * Handle all fields from a map
   * Ellipsis when column width exceeds allowed length
   * Custom names for table fields
   * Display unicode, vertical, org and markdown style tables
