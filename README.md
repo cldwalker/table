@@ -15,23 +15,25 @@ To use as a library:
 
     (use '[table.core :only [table]])
 
-Or in a repl:
+table handles rendering combinations of maps, vecs, lists and sets nested in one another.
 
 ```clojure
 $ lein repl
 user=> (table [["1" "2"] ["3" "4"]])
+user=> (table '((1 2) (3 4)))
+user=> (table #{[1 2] [3 4]})
 +---+---+
 | 1 | 2 |
 +---+---+
 | 3 | 4 |
 +---+---+
 
-user=> (table [{:a 11 :b 22} {:a 3 :b 4}])
+user=> (table [{:a 11} {:a 3 :b 22}])
 +----+----+
 | a  | b  |
 +----+----+
-| 11 | 22 |
-| 3  | 4  |
+| 11 |    |
+| 3  | 22 |
 +----+----+
 ```
 
@@ -40,7 +42,6 @@ user=> (table [{:a 11 :b 22} {:a 3 :b 4}])
 * [doric](https://github.com/joegallo/doric) is more full-featured than print-table, supporting different formats. However it doesn't focus on features I'm interested in or have a thorough-enough test suite.
 
 ## TODO
-* Handle sets, lists, anything seqable
 * Port features from [hirb](http://github.com/cldwalker/hirb)
   * Ellipsis when column width exceeds allowed length
   * Custom names for table fields

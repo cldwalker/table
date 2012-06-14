@@ -106,6 +106,18 @@
       ")
      (table-str '((1 2) (3 4))))))
 
+(deftest test-table-with-vecs-in-list
+  (is (=
+    (unindent
+      "
+      +---+---+
+      | 1 | 2 |
+      +---+---+
+      | 3 | 4 |
+      +---+---+
+      ")
+    (table-str '([1 2] [3 4])))))
+
 (deftest test-table-with-sets-in-vec
   (is (=
     (unindent
