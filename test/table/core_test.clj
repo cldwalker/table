@@ -18,7 +18,7 @@
       ")
     (with-out-str (table [["1" "2"] ["3" "4"]])))))
 
-(deftest test-table-with-vecs
+(deftest test-table-with-vecs-in-vec
   (is (=
     (unindent
       "
@@ -30,7 +30,7 @@
       ")
     (table-str [["1" "2"] ["3" "4"]]))))
 
-(deftest test-table-with-maps
+(deftest test-table-with-maps-in-vec
   (is (=
     (unindent
       "
@@ -93,6 +93,42 @@
       +---+---+
       ")
     (table-str [{:a 1} {:b 2}]))))
+
+(deftest test-table-with-lists-in-list
+  (is (=
+    (unindent
+      "
+      +---+---+
+      | 1 | 2 |
+      +---+---+
+      | 3 | 4 |
+      +---+---+
+      ")
+     (table-str '((1 2) (3 4))))))
+
+(deftest test-table-with-sets-in-vec
+  (is (=
+    (unindent
+      "
+      +---+---+
+      | 1 | 2 |
+      +---+---+
+      | 3 | 4 |
+      +---+---+
+      ")
+    (table-str [#{1 2} #{3 4}]))))
+
+(deftest test-table-with-vecs-in-set
+   (is (=
+    (unindent
+      "
+      +---+---+
+      | 3 | 4 |
+      +---+---+
+      | 1 | 2 |
+      +---+---+
+      ")
+    (table-str #{[1 2] [3 4]}))))
 
 ;(defn test-ns-hook []
 ;  (test-table-width))

@@ -7,6 +7,7 @@
     headers (map #(if (keyword? %) (name %) (str %)) fields)
     rows (if (map? (first table))
            (map #(map (fn [k] (get % k "")) fields) table) (rest table))
+    rows (map vec rows)
     widths (map-indexed
              (fn [idx header]
                (apply max (count header) (map #(count (str (nth % idx))) rows)))
