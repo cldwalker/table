@@ -36,8 +36,10 @@ table handles rendering combinations of maps, vecs, lists and sets nested in one
     +----+----+
 
 ## Similar libraries
-* Clojure comes with a similar function [print-table](http://clojure.github.com/clojure/clojure.pprint-api.html#clojure.pprint/print-table). But it isn't too smart. This library aims to supports more data structures.
-* [doric](https://github.com/joegallo/doric) is more full-featured than print-table, supporting different formats. However it doesn't focus on features I'm interested in or have a thorough-enough test suite.
+* Clojure comes with a similar function [print-table](http://clojure.github.com/clojure/clojure.pprint-api.html#clojure.pprint/print-table) but it is simple and ugly [until this gets merged](http://dev.clojure.org/jira/browse/CLJ-1009).
+* [doric](https://github.com/joegallo/doric) is more full-featured than print-table, supporting formats other than text. But it lacks support for handling multiple data structures and tests are weak.
+
+table improves on these by rendering more data structures and ascii style tables.
 
 ## TODO
 * Port features from [hirb](http://github.com/cldwalker/hirb)
