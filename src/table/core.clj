@@ -2,6 +2,13 @@
   (:use [clojure.string :only [join replace-first]] ))
 
 (def ^:dynamic *style* :plain)
+(def styles
+  {
+   :plain {:top ["+-" "-+-" "-+"], :middle ["+-" "-+-" "-+"] :bottom ["+-" "-+-" "-+"]
+           :header-walls ["| " " | " " |"] :body-walls ["| " " | " " |"] }
+   })
+
+(defn style-for [key] (key (styles *style*)))
 
 (defn render-rows [table]
   (let [
@@ -21,13 +28,15 @@
                 row))
     wrap-row (fn [row beg mid end] (str beg (join mid row) end))
     headers (fmt-row headers)
-    border  (wrap-row
-              (map #(apply str (repeat (.length (str %)) "-")) headers)
-              "+-" "-+-" "-+")
-    header (wrap-row headers "| " " | " " |")
-    body (map #(wrap-row (fmt-row %) "| " " | " " |") rows) ]
+    border-for (fn [section]
+                 (apply wrap-row
+                   (map #(apply str (repeat (.length (str %)) "-")) headers)
+                   (style-for section)))
+    header (apply wrap-row headers (style-for :header-walls))
+    body (map #(apply wrap-row (fmt-row %) (style-for :body-walls)) rows) ]
 
-    (concat [border header border] body [border])))
+    (concat [(border-for :top) header (border-for :middle)]
+            body [( border-for :bottom)])))
 
 (defn table-str [ args & {:keys [style] :as options :or {style :plain}}]
   (binding [*style* style] (apply str (join "\n" (render-rows args)))))
