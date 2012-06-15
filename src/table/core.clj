@@ -22,13 +22,10 @@
     border  (wrap-row
               (map #(apply str (repeat (.length (str %)) "-")) headers)
               "+-" "-+-" "-+")
-    header [ border (wrap-row headers "| " " | " " |")]]
+    header (wrap-row headers "| " " | " " |")
+    body (map #(wrap-row (fmt-row %) "| " " | " " |") rows) ]
 
-    (concat
-      header
-      [border]
-      (map #(wrap-row (fmt-row %) "| " " | " " |") rows)
-      [border])))
+    (concat [border header border] body [border])))
 
 (defn table-str [& args]
   (apply str (join "\n" (apply render-rows args))))
