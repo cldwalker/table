@@ -6,7 +6,8 @@
     fields (if (map? (first table)) (distinct (vec (flatten (map keys table)))) (first table))
     headers (map #(if (keyword? %) (name %) (str %)) fields)
     rows (if (map? (first table))
-           (map #(map (fn [k] (get % k "")) fields) table) (rest table))
+           (map #(map (fn [k] (get % k)) fields) table) (rest table))
+    rows (map (fn [row] (map #(if (nil? %) "" (str %)) row)) rows)
     rows (map vec rows)
     widths (map-indexed
              (fn [idx header]

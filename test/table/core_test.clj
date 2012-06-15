@@ -142,5 +142,17 @@
       ")
     (table-str #{[1 2] [3 4]}))))
 
+(deftest test-table-with-nil-values
+  (is (=
+    (unindent
+      "
+      +---+
+      | a |
+      +---+
+      |   |
+      +---+
+      ")
+    (table-str [{:a nil}]))))
+
 ;(defn test-ns-hook []
-;  (test-table-width))
+;  (test-table-with-nil-values))
