@@ -154,5 +154,15 @@
       ")
     (table-str [{:a nil}]))))
 
+(deftest test-table-with-nil
+  (is (=
+    (unindent
+      "
+      +--+
+      |  |
+      +--+
+      +--+
+      "
+    ))))
 ;(defn test-ns-hook []
 ;  (test-table-with-nil-values))
