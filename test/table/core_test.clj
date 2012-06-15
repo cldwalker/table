@@ -8,14 +8,14 @@
 
 (deftest test-table-prints-to-out
   (is (=
-    (unindent
+    (str (unindent
       "
       +---+---+
       | 1 | 2 |
       +---+---+
       | 3 | 4 |
       +---+---+
-      ")
+      ") "\n") 
     (with-out-str (table [["1" "2"] ["3" "4"]])))))
 
 (deftest test-table-with-vecs-in-vec
@@ -164,5 +164,6 @@
       +--+
       "
     ))))
+
 ;(defn test-ns-hook []
 ;  (test-table-with-nil-values))

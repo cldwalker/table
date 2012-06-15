@@ -31,4 +31,4 @@
   (apply str (join "\n" (apply render-rows args))))
 
 (defn table [& args]
-  (print (apply table-str args)))
+  (println (apply table-str args)))
