@@ -5,12 +5,14 @@
 (def styles
   {
    :plain {:top ["+-" "-+-" "-+"], :middle ["+-" "-+-" "-+"] :bottom ["+-" "-+-" "-+"]
-           :header-walls ["| " " | " " |"] :body-walls ["| " " | " " |"] }
+           :dash "-" :header-walls ["| " " | " " |"] :body-walls ["| " " | " " |"] }
    :org {:top ["|-" "-+-" "-|"], :middle ["|-" "-+-" "-|"] :bottom ["|-" "-+-" "-|"]
-           :header-walls ["| " " | " " |"] :body-walls ["| " " | " " |"] }
+           :dash "-" :header-walls ["| " " | " " |"] :body-walls ["| " " | " " |"] }
+   :unicode {:top ["┌─" "─┬─" "─┐"] :middle ["├─" "─┼─" "─┤"] :bottom ["└─" "─┴─" "─┘"]
+         :dash "─" :header-walls ["│ " " │ " " │"] :body-walls ["│ " " ╎ " " │"]}
    })
 
-(defn style-for [key] (key (styles *style*)))
+(defn style-for [k] (k (styles *style*)))
 
 (defn render-rows [table]
   (let [
@@ -32,7 +34,7 @@
     headers (fmt-row headers)
     border-for (fn [section]
                  (apply wrap-row
-                   (map #(apply str (repeat (.length (str %)) "-")) headers)
+                   (map #(apply str (repeat (.length (str %)) (style-for :dash))) headers)
                    (style-for section)))
     header (apply wrap-row headers (style-for :header-walls))
     body (map #(apply wrap-row (fmt-row %) (style-for :body-walls)) rows) ]

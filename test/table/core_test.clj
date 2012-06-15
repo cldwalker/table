@@ -177,5 +177,17 @@
       ")
       (table-str [[1 2] [3 4]] :style :org))))
 
+(deftest test-table-with-unicode-style
+  (is (=
+    (unindent
+      "
+      ┌───┬───┐
+      │ 1 │ 2 │
+      ├───┼───┤
+      │ 3 ╎ 4 │
+      └───┴───┘
+      ")
+    (table-str [[1 2] [3 4]] :style :unicode))))
+
 ;(defn test-ns-hook []
 ;  (test-table-with-nil-values))
