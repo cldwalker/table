@@ -1,6 +1,8 @@
 (ns table.core
   (:use [clojure.string :only [join replace-first]] ))
 
+(def ^:dynamic *style* :plain)
+
 (defn render-rows [table]
   (let [
     fields (if (map? (first table)) (distinct (vec (flatten (map keys table)))) (first table))
@@ -27,8 +29,8 @@
 
     (concat [border header border] body [border])))
 
-(defn table-str [& args]
-  (apply str (join "\n" (apply render-rows args))))
+(defn table-str [ args & {:keys [style] :as options :or {style :plain}}]
+  (binding [*style* style] (apply str (join "\n" (render-rows args)))))
 
 (defn table [& args]
   (println (apply table-str args)))
