@@ -17,25 +17,23 @@ To use as a library:
 
 table handles rendering combinations of maps, vecs, lists and sets nested in one another.
 
-```clojure
-$ lein repl
-user=> (table [["1" "2"] ["3" "4"]])
-user=> (table '((1 2) (3 4)))
-user=> (table #{[1 2] [3 4]})
-+---+---+
-| 1 | 2 |
-+---+---+
-| 3 | 4 |
-+---+---+
+    $ lein repl
+    user=> (table [["1" "2"] ["3" "4"]])
+    user=> (table '((1 2) (3 4)))
+    user=> (table #{[1 2] [3 4]})
+    +---+---+
+    | 1 | 2 |
+    +---+---+
+    | 3 | 4 |
+    +---+---+
 
-user=> (table [{:a 11} {:a 3 :b 22}])
-+----+----+
-| a  | b  |
-+----+----+
-| 11 |    |
-| 3  | 22 |
-+----+----+
-```
+    user=> (table [{:a 11} {:a 3 :b 22}])
+    +----+----+
+    | a  | b  |
+    +----+----+
+    | 11 |    |
+    | 3  | 22 |
+    +----+----+
 
 ## Similar libraries
 * Clojure comes with a similar function [print-table](http://clojure.github.com/clojure/clojure.pprint-api.html#clojure.pprint/print-table). But it isn't too smart. This library aims to supports more data structures.
