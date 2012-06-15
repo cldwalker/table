@@ -165,5 +165,17 @@
       "
     ))))
 
+(deftest test-table-with-org-style
+  (is (=
+    (unindent
+      "
+      |---+---|
+      | 1 | 2 |
+      |---+---|
+      | 3 | 4 |
+      |---+---|
+      ")
+      (table-str [[1 2] [3 4]] :style :org))))
+
 ;(defn test-ns-hook []
 ;  (test-table-with-nil-values))

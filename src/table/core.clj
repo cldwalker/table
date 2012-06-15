@@ -6,6 +6,8 @@
   {
    :plain {:top ["+-" "-+-" "-+"], :middle ["+-" "-+-" "-+"] :bottom ["+-" "-+-" "-+"]
            :header-walls ["| " " | " " |"] :body-walls ["| " " | " " |"] }
+   :org {:top ["|-" "-+-" "-|"], :middle ["|-" "-+-" "-|"] :bottom ["|-" "-+-" "-|"]
+           :header-walls ["| " " | " " |"] :body-walls ["| " " | " " |"] }
    })
 
 (defn style-for [key] (key (styles *style*)))
