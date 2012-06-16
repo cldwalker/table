@@ -189,5 +189,15 @@
       ")
     (table-str [[1 2] [3 4]] :style :unicode))))
 
+(deftest test-table-with-markdown-style
+  (is (=
+    (str "\n" (unindent
+      "
+      | 10 | 20 |
+      |--- | ---|
+      | 3  | 4  |
+      ") "\n")
+    (table-str [[10 20] [3 4]] :style :github-markdown))))
+
 ;(defn test-ns-hook []
 ;  (test-table-with-nil-values))

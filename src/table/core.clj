@@ -2,22 +2,27 @@
   (:use [clojure.string :only [join replace-first]] ))
 
 (def ^:dynamic *style* :plain)
+(def walls ["| " " | " " |"])
 (def styles
   {
    :plain {:top ["+-" "-+-" "-+"], :middle ["+-" "-+-" "-+"] :bottom ["+-" "-+-" "-+"]
-           :dash "-" :header-walls ["| " " | " " |"] :body-walls ["| " " | " " |"] }
+           :dash "-" :header-walls walls :body-walls walls }
    :org {:top ["|-" "-+-" "-|"], :middle ["|-" "-+-" "-|"] :bottom ["|-" "-+-" "-|"]
-           :dash "-" :header-walls ["| " " | " " |"] :body-walls ["| " " | " " |"] }
+         :dash "-" :header-walls walls :body-walls walls }
    :unicode {:top ["┌─" "─┬─" "─┐"] :middle ["├─" "─┼─" "─┤"] :bottom ["└─" "─┴─" "─┘"]
-         :dash "─" :header-walls ["│ " " │ " " │"] :body-walls ["│ " " ╎ " " │"]}
+             :dash "─" :header-walls ["│ " " │ " " │"] :body-walls ["│ " " ╎ " " │"] }
+   :github-markdown {:top ["" "" ""] :middle ["|-" " | " "-|"] :bottom ["" "" ""]
+                     :top-dash "" :dash "-" :bottom-dash "" :header-walls walls :body-walls walls }
    })
 
 (defn style-for [k] (k (styles *style*)))
 
+; generates a vec of formatted string rows given almost any input
 (defn render-rows [table]
   (let [
     fields (if (map? (first table)) (distinct (vec (flatten (map keys table)))) (first table))
     headers (map #(if (keyword? %) (name %) (str %)) fields)
+    ; rows are converted to a vec of vecs containing string cell values
     rows (if (map? (first table))
            (map #(map (fn [k] (get % k)) fields) table) (rest table))
     rows (map (fn [row] (map #(if (nil? %) "" (str %)) row)) rows)
@@ -32,15 +37,17 @@
                 row))
     wrap-row (fn [row beg mid end] (str beg (join mid row) end))
     headers (fmt-row headers)
-    border-for (fn [section]
+    border-for (fn [section dash]
                  (apply wrap-row
-                   (map #(apply str (repeat (.length (str %)) (style-for :dash))) headers)
+                   (map #(apply str (repeat
+                                      (.length (str %))
+                                      (if (style-for dash) (style-for dash) (style-for :dash)))) headers)
                    (style-for section)))
     header (apply wrap-row headers (style-for :header-walls))
     body (map #(apply wrap-row (fmt-row %) (style-for :body-walls)) rows) ]
 
-    (concat [(border-for :top) header (border-for :middle)]
-            body [( border-for :bottom)])))
+    (concat [(border-for :top :top-dash) header (border-for :middle :dash)]
+            body [( border-for :bottom :bottom-dash)])))
 
 (defn table-str [ args & {:keys [style] :as options :or {style :plain}}]
   (binding [*style* style] (apply str (join "\n" (render-rows args)))))
