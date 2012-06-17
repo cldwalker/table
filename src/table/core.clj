@@ -35,21 +35,21 @@
               (map-indexed
                 (fn [idx val] (format (str "%-" (nth widths idx) "s") val))
                 row))
-    wrap-row (fn [row beg mid end] (str beg (join mid row) end))
+    wrap-row (fn [row strings] (let [[beg mid end] strings] (str beg (join mid row) end)))
     headers (fmt-row headers)
     border-for (fn [section dash]
-                 (apply wrap-row
+                 (let [dash-key (if (style-for dash) dash :dash)]
+                 (wrap-row
                    (map #(apply str (repeat
-                                      (.length (str %))
-                                      (if (style-for dash) (style-for dash) (style-for :dash)))) headers)
-                   (style-for section)))
-    header (apply wrap-row headers (style-for :header-walls))
-    body (map #(apply wrap-row (fmt-row %) (style-for :body-walls)) rows) ]
+                                      (.length (str %))(style-for dash-key))) headers)
+                   (style-for section))))
+    header (wrap-row headers (style-for :header-walls))
+    body (map #(wrap-row (fmt-row %) (style-for :body-walls)) rows) ]
 
     (concat [(border-for :top :top-dash) header (border-for :middle :dash)]
             body [( border-for :bottom :bottom-dash)])))
 
-(defn table-str [ args & {:keys [style] :as options :or {style :plain}}]
+(defn table-str [ args & {:keys [style] :or {style :plain}}]
   (binding [*style* style] (apply str (join "\n" (render-rows args)))))
 
 (defn table [& args]

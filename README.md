@@ -51,6 +51,7 @@ table can render different styles of tables:
     | 3 | 4 |
     |---+---|
 
+    # Yes, these will generate tables for github's markdown
     user=> (table [ [10 20] [3 4]] :style :github-markdown)
 
     | 10 | 20 |
