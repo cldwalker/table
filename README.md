@@ -2,6 +2,8 @@
 
 Display ascii tables for almost any data structure with ease.
 
+[![Build Status](https://secure.travis-ci.org/cldwalker/table.png?branch=master)](http://travis-ci.org/cldwalker/table)
+
 ## Install
 
 Until this is packaged as a proper clojar:
