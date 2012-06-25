@@ -6,10 +6,9 @@ Display ascii tables for almost any data structure with ease.
 
 ## Install
 
-Until this is packaged as a proper clojar:
+To use it, add to your project.clj:
 
-    $ lein deps
-    $ lein repl
+    [table "0.1.0"]
 
 ## Usage
 
