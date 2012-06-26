@@ -1,4 +1,4 @@
-(defproject org.clojars.cldwalker/table "0.1.0"
+(defproject org.clojars.cldwalker/table "0.1.1"
   :description "Display ascii tables for almost any data structure with ease"
   :url "http://github.com/cldwalker/table"
   :license {:name "The MIT License"

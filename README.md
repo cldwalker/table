@@ -8,7 +8,7 @@ Display ascii tables for almost any data structure with ease.
 
 To use it, add to your project.clj:
 
-    [table "0.1.0"]
+    [table "0.1.1"]
 
 ## Usage
 
