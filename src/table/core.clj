@@ -2,8 +2,8 @@
   (:use [clojure.string :only [join replace-first]] ))
 
 (def ^:dynamic *style* :plain)
-(def walls ["| " " | " " |"])
-(def styles
+(def ^:private walls ["| " " | " " |"])
+(def ^:private styles
   {
    :plain {:top ["+-" "-+-" "-+"], :middle ["+-" "-+-" "-+"] :bottom ["+-" "-+-" "-+"]
            :dash "-" :header-walls walls :body-walls walls }
@@ -15,10 +15,10 @@
                      :top-dash "" :dash "-" :bottom-dash "" :header-walls walls :body-walls walls }
    })
 
-(defn style-for [k] (k (styles *style*)))
+(defn- style-for [k] (k (styles *style*)))
 
 ; generates a vec of formatted string rows given almost any input
-(defn render-rows [table]
+(defn- render-rows [table]
   (let [
     fields (if (map? (first table)) (distinct (vec (flatten (map keys table)))) (first table))
     headers (map #(if (keyword? %) (name %) (str %)) fields)
