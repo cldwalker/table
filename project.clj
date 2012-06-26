@@ -3,5 +3,5 @@
   :url "http://github.com/cldwalker/table"
   :license {:name "The MIT License"
             :url "https://en.wikipedia.org/wiki/MIT_License"}
-  :main table.core
+  :repl-options  {:init-ns table.core}
   :dependencies [[org.clojure/clojure "1.4.0"]])
