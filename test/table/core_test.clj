@@ -43,6 +43,19 @@
       ")
     (table-str [{:a 1 :b 2} {:a 3 :b 4}]))))
 
+(deftest test-table-with-top-level-map
+  (is (=
+    (unindent
+      "
+      +-----+-------+
+      | key | value |
+      +-----+-------+
+      | :a  | 1     |
+      | :b  | 2     |
+      +-----+-------+
+      ")
+    (table-str {:a 1 :b 2}))))
+
 (deftest test-table-with-auto-width
   (is (=
     (unindent
@@ -200,4 +213,4 @@
     (table-str [[10 20] [3 4]] :style :github-markdown))))
 
 ;(defn test-ns-hook []
-;  (test-table-with-nil-values))
+;  (test-table-with-top-level-map))

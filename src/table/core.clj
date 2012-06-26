@@ -20,11 +20,16 @@
 ; generates a vec of formatted string rows given almost any input
 (defn- render-rows [table]
   (let [
-    fields (if (map? (first table)) (distinct (vec (flatten (map keys table)))) (first table))
+    fields (cond
+             (map? (first table)) (distinct (vec (flatten (map keys table))))
+             (map? table) [:key :value]
+             :else (first table))
     headers (map #(if (keyword? %) (name %) (str %)) fields)
     ; rows are converted to a vec of vecs containing string cell values
-    rows (if (map? (first table))
-           (map #(map (fn [k] (get % k)) fields) table) (rest table))
+    rows (cond
+           (map? (first table)) (map #(map (fn [k] (get % k)) fields) table)
+           (map? table) table
+           :else (rest table))
     rows (map (fn [row] (map #(if (nil? %) "" (str %)) row)) rows)
     rows (map vec rows)
     widths (map-indexed
