@@ -212,5 +212,17 @@
       ") "\n")
     (table-str [[10 20] [3 4]] :style :github-markdown))))
 
+(deftest test-table-with-empty-cells
+  (is (=
+    (unindent
+      "
+      +--+---+
+      |  | 2 |
+      +--+---+
+      |  | 4 |
+      +--+---+
+      ")
+    (table-str [["" "2"] ["" "4"]]))))
+
 ;(defn test-ns-hook []
 ;  (test-table-with-top-level-map))

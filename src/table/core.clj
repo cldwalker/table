@@ -38,7 +38,8 @@
              headers)
     fmt-row (fn [row]
               (map-indexed
-                (fn [idx val] (format (str "%-" (nth widths idx) "s") val))
+                (fn [idx val] (let [num (nth widths idx)]
+                  (if (zero? num) "" (format (str "%-" num "s") val))))
                 row))
     wrap-row (fn [row strings] (let [[beg mid end] strings] (str beg (join mid row) end)))
     headers (fmt-row headers)
