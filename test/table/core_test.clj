@@ -224,5 +224,18 @@
       ")
     (table-str [["" "2"] ["" "4"]]))))
 
+(deftest test-table-with-sort-option
+  (is (=
+    (unindent
+      "
+      +----+----+
+      | 1  | 2  |
+      +----+----+
+      | :a | :b |
+      | :c | :d |
+      +----+----+
+      ")
+    (table-str  [[1 2] [:c :d]  [:a :b]] :sort true))))
+
 ;(defn test-ns-hook []
 ;  (test-table-with-top-level-map))

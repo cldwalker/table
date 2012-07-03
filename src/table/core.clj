@@ -18,7 +18,7 @@
 (defn- style-for [k] (k (styles *style*)))
 
 ; generates a vec of formatted string rows given almost any input
-(defn- render-rows [table]
+(defn- render-rows [table options]
   (let [
     fields (cond
              (map? (first table)) (distinct (vec (flatten (map keys table))))
@@ -31,6 +31,7 @@
            (map? table) table
            :else (rest table))
     rows (map (fn [row] (map #(if (nil? %) "" (str %)) row)) rows)
+    rows (if (options :sort) (sort-by first rows) rows)
     rows (map vec rows)
     widths (map-indexed
              (fn [idx header]
@@ -55,8 +56,9 @@
     (concat [(border-for :top :top-dash) header (border-for :middle :dash)]
             body [( border-for :bottom :bottom-dash)])))
 
-(defn table-str [ args & {:keys [style] :or {style :plain}}]
-  (binding [*style* style] (apply str (join "\n" (render-rows args)))))
+(defn table-str [ args & {:keys [style] :or {style :plain} :as options}]
+  (binding [*style* style]
+    (apply str (join "\n" (render-rows args (if (map? options) options {}))))))
 
 (defn table [& args]
   (println (apply table-str args)))
