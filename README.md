@@ -71,6 +71,6 @@ table improves on these by rendering more data structures and ascii style tables
   * Ellipsis when column width exceeds allowed length
   * Custom names for table fields
   * Adjust width of table based on terminal size
-* Handle no rows and 1d vecs
+* Handle no rows
 * Handle vecs with different sizes
 * Look into auto-rendering database results in reply repl

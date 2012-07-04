@@ -56,6 +56,20 @@
       ")
     (table-str {:a 1 :b 2}))))
 
+(deftest test-table-with-top-level-vec
+  (is (=
+    (unindent
+      "
+      +-------+
+      | value |
+      +-------+
+      | 1     |
+      | 2     |
+      | 3     |
+      +-------+
+      ")
+    (table-str [1 2 3]))))
+
 (deftest test-table-with-auto-width
   (is (=
     (unindent

@@ -46,12 +46,15 @@
 ; generates a vec of formatted string rows given almost any input
 (defn- render-rows [table options]
    (let [
+    top-level-vec (not-any? true? ((juxt map? set? list? vector?) (first table)))
     fields (cond
+             top-level-vec [:value]
              (map? (first table)) (distinct (vec (flatten (map keys table))))
              (map? table) [:key :value]
              :else (first table))
     ; rows are converted to a vec of vecs containing string cell values
     rows (cond
+           top-level-vec (map #(vector %) table)
            (map? (first table)) (map #(map (fn [k] (get % k)) fields) table)
            (map? table) table
            :else (rest table))
