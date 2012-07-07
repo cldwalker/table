@@ -1,5 +1,5 @@
 (ns table.core
-  (:use [clojure.string :only [join replace-first]] ))
+  (:use [clojure.string :only [join]] ))
 
 (def ^:dynamic *style* :plain)
 (def ^:private walls ["| " " | " " |"])
@@ -43,6 +43,9 @@
     (concat [(border-for :top :top-dash) header (border-for :middle :dash)]
             body [( border-for :bottom :bottom-dash)])))
 
+(defn- escape-newline [string]
+  (clojure.string/replace string (str \newline) (char-escape-string \newline)))
+
 ; generates a vec of formatted string rows given almost any input
 (defn- render-rows [table options]
    (let [
@@ -60,7 +63,7 @@
            :else (rest table))
     rows (map (fn [row] (map #(if (nil? %) "" (str %)) row)) rows)
     rows (if (options :sort) (sort-by first rows) rows)
-    rows (map vec rows)]
+    rows (->> rows (map vec) (map (fn [row] (map escape-newline row))))]
   (render-rows-with-fields rows fields options)))
 
 

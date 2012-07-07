@@ -251,5 +251,19 @@
       ")
     (table-str  [[1 2] [:c :d]  [:a :b]] :sort true))))
 
+(deftest test-table-escapes-newlines
+  (is (=
+    (unindent
+      (format
+        "
+        +---+------+
+        | 1 | 2    |
+        +---+------+
+        | 3 | 4%s5 |
+        +---+------+
+        "
+        (char-escape-string \newline)))
+    (table-str [[1,2]  [3, "4\n5"]]))))
+
 ;(defn test-ns-hook []
 ;  (test-table-with-top-level-map))
