@@ -12,13 +12,17 @@ To use it, add to your project.clj:
 
 ## Usage
 
-To use as a library:
+To use in a library:
 
     (use '[table.core :only [table]])
 
 table handles rendering combinations of maps, vecs, lists and sets nested in one another.
 
     $ lein repl
+    user=> (use 'table.core)
+    => nil
+
+    ; These three yields the same table
     user=> (table [["1" "2"] ["3" "4"]])
     user=> (table '((1 2) (3 4)))
     user=> (table #{[1 2] [3 4]})
