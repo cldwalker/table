@@ -49,7 +49,7 @@
 ; generates a vec of formatted string rows given almost any input
 (defn- render-rows [table options]
    (let [
-    top-level-vec (not-any? true? ((juxt map? set? list? vector?) (first table)))
+    top-level-vec (not (coll? (first table)))
     fields (cond
              top-level-vec [:value]
              (map? (first table)) (distinct (vec (flatten (map keys table))))
