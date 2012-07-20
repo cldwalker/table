@@ -6,7 +6,11 @@ Display ascii tables for almost any data structure with ease.
 
 ## Install
 
-To use it, add to your project.clj:
+To have it available on all projects, add to your leiningen2's ~/lein/profiles.clj:
+
+    {:user {:dependencies { table "0.2.0"}}}
+
+To have it on an individual project, add to your project.clj:
 
     [table "0.2.0"]
 
@@ -20,7 +24,7 @@ table handles rendering combinations of maps, vecs, lists and sets nested in one
 
     $ lein repl
     user=> (use 'table.core)
-    => nil
+    nil
 
     ; These three yields the same table
     user=> (table [["1" "2"] ["3" "4"]])
@@ -69,6 +73,9 @@ table can render different styles of tables:
 
 table improves on these by rendering more data structures and ascii style tables.
 
+## Contributing
+[See here](http://tagaholic.me/contributing.html)
+
 ## TODO
 * Set default style
 * Port features from [hirb](http://github.com/cldwalker/hirb)
@@ -78,3 +85,4 @@ table improves on these by rendering more data structures and ascii style tables
 * Handle no rows
 * Handle vecs with different sizes
 * Look into auto-rendering database results in reply repl
+* Escape tabs
