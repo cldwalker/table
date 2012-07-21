@@ -1,4 +1,5 @@
 (ns table.core
+  (:require [table.width])
   (:use [clojure.string :only [join]] ))
 
 (def ^:dynamic *style* :plain)
@@ -17,16 +18,10 @@
 
 (defn- style-for [k] (k (styles *style*)))
 
-(defn get-widths [all-rows]
-  (map
-    (fn [idx]
-      (apply max (map #(count (str (nth % idx))) all-rows)))
-    (range (count (first all-rows)))))
-
 (defn- render-rows-with-fields [rows fields options]
   (let [
     headers (map #(if (keyword? %) (name %) (str %)) fields)
-    widths (get-widths (cons headers rows))
+    widths (table.width/get-widths (cons headers rows))
     fmt-row (fn [row]
               (map-indexed
                 (fn [idx val] (let [num (nth widths idx)]
