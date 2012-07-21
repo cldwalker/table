@@ -17,16 +17,16 @@
 
 (defn- style-for [k] (k (styles *style*)))
 
-(defn get-widths [headers rows]
-  (map-indexed
-    (fn [idx header]
-      (apply max (count header) (map #(count (str (nth % idx))) rows)))
-    headers))
+(defn get-widths [all-rows]
+  (map
+    (fn [idx]
+      (apply max (map #(count (str (nth % idx))) all-rows)))
+    (range (count (first all-rows)))))
 
 (defn- render-rows-with-fields [rows fields options]
   (let [
     headers (map #(if (keyword? %) (name %) (str %)) fields)
-    widths (get-widths headers rows)
+    widths (get-widths (cons headers rows))
     fmt-row (fn [row]
               (map-indexed
                 (fn [idx val] (let [num (nth widths idx)]
