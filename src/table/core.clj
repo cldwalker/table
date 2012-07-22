@@ -18,14 +18,22 @@
 
 (defn- style-for [k] (k (styles *style*)))
 
+(defn format-cell [string width]
+  (if (zero? width)
+    ""
+    (format
+      (str "%-" width "." width "s")
+      (if (> (count string) width)
+        (str (.substring string 0 (- width 3)) "...")
+        string))))
+
 (defn- render-rows-with-fields [rows fields options]
   (let [
     headers (map #(if (keyword? %) (name %) (str %)) fields)
     widths (table.width/get-widths (cons headers rows))
     fmt-row (fn [row]
               (map-indexed
-                (fn [idx val] (let [num (nth widths idx)]
-                  (if (zero? num) "" (format (str "%-" num "s") val))))
+                (fn [idx string] (format-cell string (nth widths idx)))
                 row))
     wrap-row (fn [row strings] (let [[beg mid end] strings] (str beg (join mid row) end)))
     headers (fmt-row headers)
