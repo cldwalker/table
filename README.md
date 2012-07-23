@@ -20,6 +20,10 @@ To use in a library:
 
     (use '[table.core :only [table]])
 
+To have tables set to your terminal's width
+
+    $ export COLUMNS
+
 table handles rendering combinations of maps, vecs, lists and sets nested in one another.
 
     $ lein repl

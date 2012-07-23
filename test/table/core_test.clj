@@ -276,7 +276,7 @@
       | :long  | nooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo... |
       +--------+-----------------------------------------------------------------------------------------+
       ")
-    (binding [table.width/*width* 100] (table-str {:short "yep" :long  (apply str "n"  (repeat 250 "o"))})))))
+    (binding [table.width/*width* (delay 100)] (table-str {:short "yep" :long  (apply str "n"  (repeat 250 "o"))})))))
 
 ;(defn test-ns-hook []
 ;  (test-table-with-top-level-map))

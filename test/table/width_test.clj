@@ -2,7 +2,7 @@
   (:use clojure.test table.width))
 
 (defn auto-resize [widths]
-  (binding [*width* 238] (auto-resize-widths widths)))
+  (binding [*width* (delay 238)] (auto-resize-widths widths)))
 
 ; for max width of 238, 76 is the max-width-per-field for 3 fields
 (deftest test-auto-resize-allows-over-max-field-to-get-width-from-under-max-fields
