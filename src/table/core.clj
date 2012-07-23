@@ -18,10 +18,21 @@
                      :top-dash "" :dash "-" :bottom-dash "" :header-walls walls :body-walls walls }
    })
 
-(defn table [& args]
+(defn table
+   "Generates an ascii table for almost any input that fits in your terminal.
+   Multiple table styles are supported.
+
+   Options:
+
+   * :sort   When set to true sorts table by first column. Default is false.
+   * :style  Sets table style. Available styles are :plain, :org, :unicode and
+             :github-markdown. Default is :plain."
+  [& args]
   (println (apply table-str args)))
 
-(defn table-str [ args & {:keys [style] :or {style :plain} :as options}]
+(defn table-str
+  "Same options as table but returns table as a string"
+  [ args & {:keys [style] :or {style :plain} :as options}]
   (binding [*style* style]
     (apply str (join "\n" (render-rows args (if (map? options) options {}))))))
 
