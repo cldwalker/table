@@ -13,23 +13,6 @@
 (defn get-widths [all-rows]
   (-> all-rows get-initial-widths vec auto-resize-widths))
 
-(defn get-initial-widths [all-rows]
-  (map
-    (fn [idx]
-      (apply max (map #(count (str (nth % idx))) all-rows)))
-    (range (count (first all-rows)))))
-
-(defn max-width-per-field [current-width field-count]
-  (quot (actual-width current-width field-count) field-count))
-
-; think of inner-borders as interposed between fields to understand why
-; it's one less than the number of fields
-(defn actual-width [current-width field-count]
-  (- current-width (+ (* 2 outer-border-length) (* (dec field-count) inner-border-length))))
-
-(defn detect-terminal-width []
-  (if-let [cols (System/getenv "COLUMNS")] (Integer. cols)))
-
 (defn auto-resize-widths [widths]
   (loop [new-widths [] widths widths field-count (count widths) max-width @*width*]
     (if (empty? widths)
@@ -44,3 +27,19 @@
           (- field-count 1)
           (- max-width (+ new-width inner-border-length)))))))
 
+(defn get-initial-widths [all-rows]
+  (map
+    (fn [idx]
+      (apply max (map #(count (str (nth % idx))) all-rows)))
+    (range (count (first all-rows)))))
+
+(defn- max-width-per-field [current-width field-count]
+  (quot (actual-width current-width field-count) field-count))
+
+; think of inner-borders as interposed between fields to understand why
+; it's one less than the number of fields
+(defn- actual-width [current-width field-count]
+  (- current-width (+ (* 2 outer-border-length) (* (dec field-count) inner-border-length))))
+
+(defn- detect-terminal-width []
+  (if-let [cols (System/getenv "COLUMNS")] (Integer. cols)))

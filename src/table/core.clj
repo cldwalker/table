@@ -1,6 +1,8 @@
 (ns table.core
-  (:require [table.width])
+  (:require table.width)
   (:use [clojure.string :only [join]] ))
+
+(declare style-for format-cell render-rows-with-fields escape-newline render-rows table-str)
 
 (def ^:dynamic *style* :plain)
 (def ^:private walls ["| " " | " " |"])
@@ -16,16 +18,32 @@
                      :top-dash "" :dash "-" :bottom-dash "" :header-walls walls :body-walls walls }
    })
 
-(defn- style-for [k] (k (styles *style*)))
+(defn table [& args]
+  (println (apply table-str args)))
 
-(defn format-cell [string width]
-  (if (zero? width)
-    ""
-    (format
-      (str "%-" width "." width "s")
-      (if (> (count string) width)
-        (str (.substring string 0 (- width 3)) "...")
-        string))))
+(defn table-str [ args & {:keys [style] :or {style :plain} :as options}]
+  (binding [*style* style]
+    (apply str (join "\n" (render-rows args (if (map? options) options {}))))))
+
+; generates a vec of formatted string rows given almost any input
+(defn- render-rows [table options]
+   (let [
+    top-level-vec (not (coll? (first table)))
+    fields (cond
+             top-level-vec [:value]
+             (map? (first table)) (distinct (vec (flatten (map keys table))))
+             (map? table) [:key :value]
+             :else (first table))
+    ; rows are converted to a vec of vecs containing string cell values
+    rows (cond
+           top-level-vec (map #(vector %) table)
+           (map? (first table)) (map #(map (fn [k] (get % k)) fields) table)
+           (map? table) table
+           :else (rest table))
+    rows (map (fn [row] (map #(if (nil? %) "" (str %)) row)) rows)
+    rows (if (options :sort) (sort-by first rows) rows)
+    rows (->> rows (map vec) (map (fn [row] (map escape-newline row))))]
+  (render-rows-with-fields rows fields options)))
 
 (defn- render-rows-with-fields [rows fields options]
   (let [
@@ -52,30 +70,13 @@
 (defn- escape-newline [string]
   (clojure.string/replace string (str \newline) (char-escape-string \newline)))
 
-; generates a vec of formatted string rows given almost any input
-(defn- render-rows [table options]
-   (let [
-    top-level-vec (not (coll? (first table)))
-    fields (cond
-             top-level-vec [:value]
-             (map? (first table)) (distinct (vec (flatten (map keys table))))
-             (map? table) [:key :value]
-             :else (first table))
-    ; rows are converted to a vec of vecs containing string cell values
-    rows (cond
-           top-level-vec (map #(vector %) table)
-           (map? (first table)) (map #(map (fn [k] (get % k)) fields) table)
-           (map? table) table
-           :else (rest table))
-    rows (map (fn [row] (map #(if (nil? %) "" (str %)) row)) rows)
-    rows (if (options :sort) (sort-by first rows) rows)
-    rows (->> rows (map vec) (map (fn [row] (map escape-newline row))))]
-  (render-rows-with-fields rows fields options)))
+(defn- style-for [k] (k (styles *style*)))
 
-
-(defn table-str [ args & {:keys [style] :or {style :plain} :as options}]
-  (binding [*style* style]
-    (apply str (join "\n" (render-rows args (if (map? options) options {}))))))
-
-(defn table [& args]
-  (println (apply table-str args)))
+(defn format-cell [string width]
+  (if (zero? width)
+    ""
+    (format
+      (str "%-" width "." width "s")
+      (if (> (count string) width)
+        (str (.substring string 0 (- width 3)) "...")
+        string))))
