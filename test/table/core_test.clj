@@ -265,19 +265,18 @@
         (char-escape-string \newline)))
     (table-str [[1,2]  [3, "4\n5"]]))))
 
-; TODO: explicitly set table.width/*width*
 (deftest test-table-shortens-cell-longer-than-allowed-width
   (is (=
     (unindent
       "
-      +--------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | key    | value                                                                                                                                                                                                                             |
-      +--------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | :short | yep                                                                                                                                                                                                                               |
-      | :long  | nooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo... |
-      +--------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+      +--------+-----------------------------------------------------------------------------------------+
+      | key    | value                                                                                   |
+      +--------+-----------------------------------------------------------------------------------------+
+      | :short | yep                                                                                     |
+      | :long  | nooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo... |
+      +--------+-----------------------------------------------------------------------------------------+
       ")
-    (table-str {:short "yep" :long  (apply str "n"  (repeat 250 "o"))}))))
+    (binding [table.width/*width* 100] (table-str {:short "yep" :long  (apply str "n"  (repeat 250 "o"))})))))
 
 ;(defn test-ns-hook []
 ;  (test-table-with-top-level-map))
