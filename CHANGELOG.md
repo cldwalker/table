@@ -1,3 +1,7 @@
+## 0.3.0
+* Generate tables for a given width
+* Detect terminal width
+
 ## 0.2.0
 * Support top-level vectors and maps
 * Add sort option
