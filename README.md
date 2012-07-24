@@ -67,6 +67,33 @@ table can render different styles of tables:
     |--- | ---|
     | 3  | 4  |
 
+table can handle plain maps and vectors of course:
+
+    user=> (table (meta #'doc))
+    +-----------+---------------------------------------------------------------+
+    | key       | value                                                         |
+    +-----------+---------------------------------------------------------------+
+    | :macro    | true                                                          |
+    | :ns       | clojure.repl                                                  |
+    | :name     | doc                                                           |
+    | :arglists | ([name])                                                      |
+    | :added    | 1.0                                                           |
+    | :doc      | Prints documentation for a var or special form given its name |
+    | :line     | 120                                                           |
+    | :file     | clojure/repl.clj                                              |
+    +-----------+---------------------------------------------------------------+
+
+    user=> (table (seq (.getURLs (java.lang.ClassLoader/getSystemClassLoader))))
+    +--------------------------------------------------+
+    | value                                            |
+    +--------------------------------------------------|
+    | file:/Users/me/code/gems/table/test/             |
+    | file:/Users/me/code/gems/table/src/              |
+    | file:/Users/me/code/gems/table/dev-resources     |
+    | file:/Users/me/code/gems/table/resources         |
+    | file:/Users/me/code/gems/table/target/classes/   |
+    ...
+
 ## Similar libraries
 * Clojure comes with a similar function [print-table](http://clojure.github.com/clojure/clojure.pprint-api.html#clojure.pprint/print-table) but it is simple and ugly [until this gets merged](http://dev.clojure.org/jira/browse/CLJ-1009).
 * [doric](https://github.com/joegallo/doric) is more full-featured than print-table, supporting formats other than text. But it lacks support for handling many data structures and tests are weak.
