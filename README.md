@@ -94,11 +94,20 @@ table can handle plain maps and vectors of course:
     | file:/Users/me/code/gems/table/target/classes/   |
     ...
 
+## Configuration
+
+If your terminal width isn't being auto-detected, you can execute this in your shell before using
+the repl: `export COLUMNS`. Alternatively you can bind/alter table.width/\*width\* to your desired
+width.
+
 ## Similar libraries
 * Clojure comes with a similar function [print-table](http://clojure.github.com/clojure/clojure.pprint-api.html#clojure.pprint/print-table) but it is simple and ugly [until this gets merged](http://dev.clojure.org/jira/browse/CLJ-1009).
 * [doric](https://github.com/joegallo/doric) is more full-featured than print-table, supporting formats other than text. But it lacks support for handling many data structures and tests are weak.
 
 table improves on these by rendering more data structures and ascii style tables.
+
+## Bugs/Issues
+Please report them [on github](http://github.com/cldwalker/table/issues).
 
 ## Contributing
 [See here](http://tagaholic.me/contributing.html)
