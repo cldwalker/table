@@ -1,3 +1,6 @@
+## 0.3.2
+* Fix pom.xml to not include lein repl dependencies i.e. datomic
+
 ## 0.3.1
 * Fix stty size not returning expected size i.e. in travis and emacs
 
