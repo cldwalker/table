@@ -51,7 +51,7 @@
                                (re-find #" (\d+) columns")
                                vec
                                second
-                               Integer.)))
+                               ((fn  [_ two] (if two (Integer. two))) :not-used))))
 
 (defn- command-exists?
   "Determines if command exists in $PATH"
