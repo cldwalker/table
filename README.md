@@ -1,6 +1,6 @@
 ## Description
 
-Display ascii tables for almost any data structure with ease.
+Display ascii tables that fit in your terminal for almost any data structure.
 
 [![Build Status](https://secure.travis-ci.org/cldwalker/table.png?branch=master)](http://travis-ci.org/cldwalker/table)
 
@@ -19,10 +19,6 @@ To have it on an individual project, add to your project.clj:
 To use in a library:
 
     (use '[table.core :only [table]])
-
-To have tables set to your terminal's width
-
-    $ export COLUMNS
 
 table handles rendering combinations of maps, vecs, lists and sets nested in one another.
 
@@ -83,9 +79,7 @@ table improves on these by rendering more data structures and ascii style tables
 ## TODO
 * Set default style
 * Port features from [hirb](http://github.com/cldwalker/hirb)
-  * Ellipsis when column width exceeds allowed length
   * Custom names for table fields
-  * Adjust width of table based on terminal size
 * Handle no rows
 * Handle vecs with different sizes
 * Look into auto-rendering database results in reply repl

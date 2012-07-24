@@ -1,7 +1,8 @@
-(ns table.width)
+(ns table.width
+  (:require clojure.java.shell clojure.java.io clojure.string))
 
 (declare get-initial-widths max-width-per-field actual-width auto-resize-widths
-         detect-terminal-width)
+         detect-terminal-width command-exists?)
 
 (def ^:dynamic *width* (delay (or (detect-terminal-width) 200)))
 ; TODO: calculate border lengths from styles
@@ -20,7 +21,6 @@
       (let [width (first widths)
             width-per-field (max-width-per-field max-width field-count)
             new-width (if (< width width-per-field) width width-per-field)]
-        #_(prn field-count new-width max-width width-per-field)
         (recur
           (conj new-widths new-width)
           (rest widths)
@@ -41,5 +41,21 @@
 (defn- actual-width [current-width field-count]
   (- current-width (+ (* 2 outer-border-length) (* (dec field-count) inner-border-length))))
 
+; since Java doesn't recognize COLUMNS by default you need to `export COLUMNS` for it
+; be recognized
 (defn- detect-terminal-width []
-  (if-let [cols (System/getenv "COLUMNS")] (Integer. cols)))
+  (cond
+    (System/getenv "COLUMNS") (Integer. (System/getenv "COLUMNS"))
+    (command-exists? "stty") (->> (clojure.java.shell/sh "/bin/sh" "-c" "stty -a < /dev/tty")
+                               :out
+                               (re-find #" (\d+) columns")
+                               vec
+                               second
+                               Integer.)))
+
+(defn- command-exists?
+  "Determines if command exists in $PATH"
+  [cmd]
+  (some
+    #(-> (str % "/" cmd) clojure.java.io/file .isFile)
+    (-> (System/getenv "PATH") (clojure.string/split #":"))))
