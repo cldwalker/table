@@ -1,3 +1,6 @@
+## 0.3.1
+* Fix stty size not returning expected size i.e. in travis and emacs
+
 ## 0.3.0
 * Generate tables for a given width
 * Detect terminal width

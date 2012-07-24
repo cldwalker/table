@@ -8,11 +8,11 @@ Display ascii tables that fit in your terminal for almost any data structure.
 
 To have it available on all projects, add to your leiningen2's ~/lein/profiles.clj:
 
-    {:user {:dependencies { table "0.3.0"}}}
+    {:user {:dependencies { table "0.3.1"}}}
 
 To have it on an individual project, add to your project.clj:
 
-    [table "0.3.0"]
+    [table "0.3.1"]
 
 ## Usage
 
