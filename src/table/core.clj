@@ -24,7 +24,8 @@
 
    Options:
 
-   * :sort   When set to true sorts table by first column. Default is false.
+   * :sort   When set with field name, sorts by field name. When set to true
+             sorts by first column. Default is false.
    * :style  Sets table style. Available styles are :plain, :org, :unicode and
              :github-markdown. Default is :plain."
   [& args]
@@ -52,7 +53,11 @@
            (map? table) table
            :else (rest table))
     rows (map (fn [row] (map #(if (nil? %) "" (str %)) row)) rows)
-    rows (if (options :sort) (sort-by first rows) rows)
+    sort-opt (options :sort)
+    rows (if (and sort-opt (some #{sort-opt} (conj fields true)))
+           (sort-by
+             #(nth % (if (true? sort-opt) 0 (.indexOf fields sort-opt)))
+             rows) rows)
     rows (->> rows (map vec) (map (fn [row] (map escape-newline row))))]
   (render-rows-with-fields rows fields options)))
 

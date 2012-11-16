@@ -238,7 +238,7 @@
       ")
     (table-str [["" "2"] ["" "4"]]))))
 
-(deftest test-table-with-sort-option
+(deftest test-table-with-sort-option-as-true
   (is (=
     (unindent
       "
@@ -250,6 +250,32 @@
       +----+----+
       ")
     (table-str  [[1 2] [:c :d]  [:a :b]] :sort true))))
+
+(deftest test-table-with-sort-option-as-field-name
+  (is (=
+    (unindent
+      "
+      +----+----+
+      | k  | v  |
+      +----+----+
+      | :a | :b |
+      | :c | :d |
+      +----+----+
+      ")
+    (table-str  [[:k :v] [:c :d]  [:a :b]] :sort :k))))
+
+(deftest test-table-with-invalid-sort-option-as-field-name
+  (is (=
+    (unindent
+      "
+      +----+----+
+      | k  | v  |
+      +----+----+
+      | :c | :d |
+      | :a | :b |
+      +----+----+
+      ")
+    (table-str  [[:k :v] [:c :d]  [:a :b]] :sort :invalid))))
 
 (deftest test-table-escapes-newlines
   (is (=
