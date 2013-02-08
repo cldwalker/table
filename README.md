@@ -2,7 +2,7 @@
 
 Display ascii tables that fit in your terminal for almost any data structure.
 
-[![Build Status](https://secure.travis-ci.org/cldwalker/table.png?branch=master)](http://travis-ci.org/cldwalker/table)
+[![Build Status](https://travis-ci.org/cldwalker/table.png?branch=master)](https://travis-ci.org/cldwalker/rubydoc)
 
 ## Install
 
