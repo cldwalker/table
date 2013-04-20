@@ -41,6 +41,7 @@
     (apply str (join "\n" (render-rows args (if (map? options) options {}))))))
 
 (defn- generate-rows-and-fields
+  "Returns rows and fields. Rows are a vector of vectors containing string cell values."
   [table options]
   (let [
        top-level-vec (not (coll? (first table)))
@@ -50,7 +51,6 @@
                                         (distinct (vec (flatten (map keys table)))))
                (map? table) [:key :value]
                :else (first table))
-                                        ; rows are converted to a vec of vecs containing string cell values
        rows (cond
              top-level-vec (map #(vector %) table)
              (map? (first table)) (map #(map (fn [k] (get % k)) fields) table)
@@ -65,8 +65,9 @@
         rows (->> rows (map vec) (map (fn [row] (map escape-newline row))))]
     [rows fields]))
 
-; generates a vec of formatted string rows given almost any input
-(defn- render-rows [table options]
+(defn- render-rows
+  "Generates a list of formatted string rows given almost any input"
+  [table options]
   (let [[rows fields] (generate-rows-and-fields table options)
         rendered-rows (render-rows-with-fields rows fields options)]
     (if (:desc options)
