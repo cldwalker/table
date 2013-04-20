@@ -1,5 +1,6 @@
 (ns table.width-test
-  (:use clojure.test table.width))
+  (:require [clojure.test :refer :all]
+            [table.width :refer :all]))
 
 (defn auto-resize [widths]
   (binding [*width* (delay 238)] (auto-resize-widths widths)))
@@ -22,3 +23,6 @@
     (=
       [76 76 76]
       (auto-resize [80 100 94]))))
+
+(deftest ensure-valid-width-when-getting-zero-from-stty-detect
+  (is (= 100 (table.width/ensure-valid-width 0))))

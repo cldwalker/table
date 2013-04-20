@@ -41,17 +41,26 @@
 (defn- actual-width [current-width field-count]
   (- current-width (+ (* 2 outer-border-length) (* (dec field-count) inner-border-length))))
 
+(defn ensure-valid-width [arg]
+  (if (integer? arg)
+    (if (> arg 0) arg 100)
+    arg))
+
+(defn- stty-detect []
+  (->> (clojure.java.shell/sh "/bin/sh" "-c" "stty -a < /dev/tty")
+       :out
+       (re-find #" (\d+) columns")
+       vec
+       second
+       ((fn  [_ two] (if two (Integer. two))) :not-used)))
+
 ; since Java doesn't recognize COLUMNS by default you need to `export COLUMNS` for it
 ; be recognized
 (defn- detect-terminal-width []
-  (cond
+  (ensure-valid-width
+   (cond
     (System/getenv "COLUMNS") (Integer. (System/getenv "COLUMNS"))
-    (command-exists? "stty") (->> (clojure.java.shell/sh "/bin/sh" "-c" "stty -a < /dev/tty")
-                               :out
-                               (re-find #" (\d+) columns")
-                               vec
-                               second
-                               ((fn  [_ two] (if two (Integer. two))) :not-used))))
+    (command-exists? "stty") (stty-detect))))
 
 (defn- command-exists?
   "Determines if command exists in $PATH"
