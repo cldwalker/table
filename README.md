@@ -8,7 +8,7 @@ Display ascii tables that fit in your terminal for almost any data structure.
 
 To have it available on all projects, add to your leiningen2's ~/lein/profiles.clj:
 
-    {:user {:dependencies { table "0.3.2"}}}
+    {:user {:dependencies [[table "0.3.2"]] }}
 
 To have it on an individual project, add to your project.clj:
 
@@ -104,7 +104,8 @@ width.
 * Clojure 1.5.0 comes with a similar function clojure.pprint/pprint-table
 * [doric](https://github.com/joegallo/doric) is more full-featured than print-table, supporting formats other than text. But it lacks support for handling many data structures and tests are weak.
 
-table improves on these by rendering more data structures and ascii style tables.
+table improves on these by rendering more data structures, supporting
+different ascii style tables and resizing to fit your terminal.
 
 ## Bugs/Issues
 Please report them [on github](http://github.com/cldwalker/table/issues).
