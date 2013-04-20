@@ -264,6 +264,20 @@
       ")
     (table-str [{:a 1 :b 2} {:a 3 :b 4}] :fields [:b :a :c]))))
 
+(deftest test-table-with-maps-in-vec
+  (is (=
+    (unindent
+      "
+      +---+---+
+      | a | b |
+      +---+---+
+      | 1 | 2 |
+      | 3 | 4 |
+      +---+---+
+      2 rows in set
+      ")
+    (table-str [{:a 1 :b 2} {:a 3 :b 4}] :desc true))))
+
 (deftest test-table-with-sort-option-as-true
   (is (=
     (unindent

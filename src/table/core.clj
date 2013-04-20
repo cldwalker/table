@@ -28,6 +28,7 @@
              sorts by first column. Default is false.
    * :fields An optional vector of fields used to control ordering of fields.
              Only works with rows that are maps.
+   * :desc   When set to true, displays row count after table. Default is nil.
    * :style  Sets table style. Available styles are :plain, :org, :unicode and
              :github-markdown. Default is :plain."
   [& args]
@@ -39,30 +40,38 @@
   (binding [*style* style]
     (apply str (join "\n" (render-rows args (if (map? options) options {}))))))
 
+(defn- generate-rows-and-fields
+  [table options]
+  (let [
+       top-level-vec (not (coll? (first table)))
+       fields (cond
+               top-level-vec [:value]
+               (map? (first table)) (or (:fields options)
+                                        (distinct (vec (flatten (map keys table)))))
+               (map? table) [:key :value]
+               :else (first table))
+                                        ; rows are converted to a vec of vecs containing string cell values
+       rows (cond
+             top-level-vec (map #(vector %) table)
+             (map? (first table)) (map #(map (fn [k] (get % k)) fields) table)
+             (map? table) table
+             :else (rest table))
+       rows (map (fn [row] (map #(if (nil? %) "" (str %)) row)) rows)
+       sort-opt (options :sort)
+       rows (if (and sort-opt (some #{sort-opt} (conj fields true)))
+              (sort-by
+               #(nth % (if (true? sort-opt) 0 (.indexOf fields sort-opt)))
+               rows) rows)
+        rows (->> rows (map vec) (map (fn [row] (map escape-newline row))))]
+    [rows fields]))
+
 ; generates a vec of formatted string rows given almost any input
 (defn- render-rows [table options]
-   (let [
-    top-level-vec (not (coll? (first table)))
-    fields (cond
-             top-level-vec [:value]
-             (map? (first table)) (or (:fields options)
-                                      (distinct (vec (flatten (map keys table)))))
-             (map? table) [:key :value]
-             :else (first table))
-    ; rows are converted to a vec of vecs containing string cell values
-    rows (cond
-           top-level-vec (map #(vector %) table)
-           (map? (first table)) (map #(map (fn [k] (get % k)) fields) table)
-           (map? table) table
-           :else (rest table))
-    rows (map (fn [row] (map #(if (nil? %) "" (str %)) row)) rows)
-    sort-opt (options :sort)
-    rows (if (and sort-opt (some #{sort-opt} (conj fields true)))
-           (sort-by
-             #(nth % (if (true? sort-opt) 0 (.indexOf fields sort-opt)))
-             rows) rows)
-    rows (->> rows (map vec) (map (fn [row] (map escape-newline row))))]
-  (render-rows-with-fields rows fields options)))
+  (let [[rows fields] (generate-rows-and-fields table options)
+        rendered-rows (render-rows-with-fields rows fields options)]
+    (if (:desc options)
+      (concat rendered-rows [(format "%s rows in set" (count rows))])
+      rendered-rows)))
 
 (defn- render-rows-with-fields [rows fields options]
   (let [
