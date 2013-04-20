@@ -1,3 +1,9 @@
+## 0.4.0
+* Add :fields option to control field ordering
+* Add :sort option to sort rows
+* Add :desc option to toggle row count
+* Fix table not rendering in emacs nrepl
+
 ## 0.3.2
 * Fix pom.xml to not include lein repl dependencies i.e. datomic
 

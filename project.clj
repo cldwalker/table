@@ -1,4 +1,4 @@
-(defproject table "0.3.2"
+(defproject table "0.4.0"
   :description "Display ascii tables for almost any data structure with ease"
   :url "http://github.com/cldwalker/table"
   :license {:name "The MIT License"
