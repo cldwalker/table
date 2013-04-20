@@ -114,8 +114,6 @@ Please report them [on github](http://github.com/cldwalker/table/issues).
 
 ## TODO
 * Set default style
-* Port features from [hirb](http://github.com/cldwalker/hirb)
-  * Custom names for table fields
 * Handle no rows
 * Handle vecs with different sizes
 * Look into auto-rendering database results in reply repl

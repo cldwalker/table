@@ -238,6 +238,32 @@
       ")
     (table-str [["" "2"] ["" "4"]]))))
 
+(deftest test-table-with-fields-option-and-maps
+  (is (=
+    (unindent
+      "
+      +---+---+
+      | b | a |
+      +---+---+
+      | 2 | 1 |
+      | 4 | 3 |
+      +---+---+
+      ")
+    (table-str '({:a 1 :b 2} {:a 3 :b 4}) :fields [:b :a]))))
+
+(deftest test-table-with-fields-option-and-incorrect-fields
+  (is (=
+    (unindent
+     "
+      +---+---+---+
+      | b | a | c |
+      +---+---+---+
+      | 2 | 1 |   |
+      | 4 | 3 |   |
+      +---+---+---+
+      ")
+    (table-str [{:a 1 :b 2} {:a 3 :b 4}] :fields [:b :a :c]))))
+
 (deftest test-table-with-sort-option-as-true
   (is (=
     (unindent

@@ -26,6 +26,8 @@
 
    * :sort   When set with field name, sorts by field name. When set to true
              sorts by first column. Default is false.
+   * :fields An optional vector of fields used to control ordering of fields.
+             Only works with rows that are maps.
    * :style  Sets table style. Available styles are :plain, :org, :unicode and
              :github-markdown. Default is :plain."
   [& args]
@@ -43,7 +45,8 @@
     top-level-vec (not (coll? (first table)))
     fields (cond
              top-level-vec [:value]
-             (map? (first table)) (distinct (vec (flatten (map keys table))))
+             (map? (first table)) (or (:fields options)
+                                      (distinct (vec (flatten (map keys table)))))
              (map? table) [:key :value]
              :else (first table))
     ; rows are converted to a vec of vecs containing string cell values
