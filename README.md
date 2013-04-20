@@ -101,7 +101,7 @@ the repl: `export COLUMNS`. Alternatively you can bind/alter table.width/\*width
 width.
 
 ## Similar libraries
-* Clojure comes with a similar function [print-table](http://clojure.github.com/clojure/clojure.pprint-api.html#clojure.pprint/print-table) but it is simple and ugly [until this gets merged](http://dev.clojure.org/jira/browse/CLJ-1009).
+* Clojure 1.5.0 comes with a similar function clojure.pprint/pprint-table
 * [doric](https://github.com/joegallo/doric) is more full-featured than print-table, supporting formats other than text. But it lacks support for handling many data structures and tests are weak.
 
 table improves on these by rendering more data structures and ascii style tables.
