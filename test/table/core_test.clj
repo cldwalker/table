@@ -226,6 +226,25 @@
       ") "\n")
     (table-str [[10 20] [3 4]] :style :github-markdown))))
 
+(deftest test-table-with-custom-style
+  (is (=
+    (unindent
+     "
+      ┌────┬────╖
+      │ 10 │ 20 ║
+      ├────┼────╢
+      │ 3  │ 4  ║
+      ╘════╧════╝
+      ")
+    (table-str [[10 20] [3 4]] :style {:top ["┌─" "─┬─" "─╖"]
+                                       :top-dash "─"
+                                       :middle ["├─" "─┼─" "─╢"]
+                                       :dash "─"
+                                       :bottom ["╘═" "═╧═" "═╝"]
+                                       :bottom-dash "═"
+                                       :header-walls ["│ " " │ " " ║"]
+                                       :body-walls ["│ " " │ " " ║"] }))))
+
 (deftest test-table-with-empty-cells
   (is (=
     (unindent
