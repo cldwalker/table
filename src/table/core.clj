@@ -14,6 +14,11 @@
          :dash "-" :header-walls walls :body-walls walls }
    :unicode {:top ["┌─" "─┬─" "─┐"] :middle ["├─" "─┼─" "─┤"] :bottom ["└─" "─┴─" "─┘"]
              :dash "─" :header-walls ["│ " " │ " " │"] :body-walls ["│ " " ╎ " " │"] }
+   :unicode-rounded {:top ["╭─" "─┬─" "─╮"] :middle ["├─" "─┼─" "─┤"] :bottom ["╰─" "─┴─" "─╯"]
+                     :dash "─" :header-walls ["│ " " │ " " │"] :body-walls ["│ " " │ " " │"] }
+   :unicode-3d {:top ["┌─" "─┬─" "─╖"] :middle ["├─" "─┼─" "─╢"] :bottom ["╘═" "═╧═" "═╝"]
+                :top-dash "─" :dash "─" :bottom-dash "═"
+                :header-walls ["│ " " │ " " ║"] :body-walls ["│ " " │ " " ║"] }
    :github-markdown {:top ["" "" ""] :middle ["|-" " | " "-|"] :bottom ["" "" ""]
                      :top-dash "" :dash "-" :bottom-dash "" :header-walls walls :body-walls walls }
    })
