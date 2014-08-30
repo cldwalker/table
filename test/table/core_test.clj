@@ -15,7 +15,7 @@
       +---+---+
       | 3 | 4 |
       +---+---+
-      ") "\n") 
+      ") "\n")
     (with-out-str (table [["1" "2"] ["3" "4"]])))))
 
 (deftest test-table-with-vecs-in-vec
@@ -216,6 +216,18 @@
       ")
     (table-str [[1 2] [3 4]] :style :unicode))))
 
+(deftest test-table-with-unicode-3d-style
+  (is (=
+    (unindent
+      "
+     ┌───┬───╖
+     │ 1 │ 2 ║
+     ├───┼───╢
+     │ 3 │ 4 ║
+     ╘═══╧═══╝
+      ")
+    (table-str [[1 2] [3 4]] :style :unicode-3d))))
+
 (deftest test-table-with-markdown-style
   (is (=
     (str "\n" (unindent
@@ -225,6 +237,25 @@
       | 3  | 4  |
       ") "\n")
     (table-str [[10 20] [3 4]] :style :github-markdown))))
+
+(deftest test-table-with-custom-style
+  (is (=
+    (unindent
+     "
+      ┌────┬────╖
+      │ 10 │ 20 ║
+      ├────┼────╢
+      │ 3  │ 4  ║
+      ╘════╧════╝
+      ")
+    (table-str [[10 20] [3 4]] :style {:top ["┌─" "─┬─" "─╖"]
+                                       :top-dash "─"
+                                       :middle ["├─" "─┼─" "─╢"]
+                                       :dash "─"
+                                       :bottom ["╘═" "═╧═" "═╝"]
+                                       :bottom-dash "═"
+                                       :header-walls ["│ " " │ " " ║"]
+                                       :body-walls ["│ " " │ " " ║"] }))))
 
 (deftest test-table-with-empty-cells
   (is (=

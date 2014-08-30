@@ -14,6 +14,9 @@
          :dash "-" :header-walls walls :body-walls walls }
    :unicode {:top ["┌─" "─┬─" "─┐"] :middle ["├─" "─┼─" "─┤"] :bottom ["└─" "─┴─" "─┘"]
              :dash "─" :header-walls ["│ " " │ " " │"] :body-walls ["│ " " ╎ " " │"] }
+   :unicode-3d {:top ["┌─" "─┬─" "─╖"] :middle ["├─" "─┼─" "─╢"] :bottom ["╘═" "═╧═" "═╝"]
+                :top-dash "─" :dash "─" :bottom-dash "═"
+                :header-walls ["│ " " │ " " ║"] :body-walls ["│ " " │ " " ║"] }
    :github-markdown {:top ["" "" ""] :middle ["|-" " | " "-|"] :bottom ["" "" ""]
                      :top-dash "" :dash "-" :bottom-dash "" :header-walls walls :body-walls walls }
    })
@@ -37,7 +40,7 @@
 (defn table-str
   "Same options as table but returns table as a string"
   [ args & {:keys [style] :or {style :plain} :as options}]
-  (binding [*style* style]
+  (binding [*style* (if (map? style) style (style styles))]
     (apply str (join "\n" (render-rows args (if (map? options) options {}))))))
 
 (defn- generate-rows-and-fields
@@ -99,7 +102,7 @@
 (defn- escape-newline [string]
   (clojure.string/replace string (str \newline) (char-escape-string \newline)))
 
-(defn- style-for [k] (k (styles *style*)))
+(defn- style-for [k] (k *style*))
 
 (defn format-cell [string width]
   (if (zero? width)

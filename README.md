@@ -67,6 +67,22 @@ table can render different styles of tables:
     |--- | ---|
     | 3  | 4  |
 
+table can also render custom styles:
+
+    user> (table [[10 20] [3 4]] :style {:top ["◤ " " ▼ " " ◥"]
+                                 :top-dash "✈︎"
+                                 :middle ["▶︎ " "   " " ◀︎"]
+                                 :dash "✂︎"
+                                 :bottom ["◣ " " ▲ " " ◢"]
+                                 :bottom-dash "☺︎"
+                                 :header-walls ["  " "   " "  "]
+                                 :body-walls ["  " "   " "  "] })
+    ◤ ✈︎✈︎ ▼ ✈︎✈︎ ◥
+      10   20  
+    ▶︎ ✂︎✂︎   ✂︎✂︎ ◀︎
+      3    4   
+    ◣ ☺︎☺︎ ▲ ☺︎☺︎ ◢
+
 table can handle plain maps and vectors of course:
 
     user=> (table (meta #'doc))
