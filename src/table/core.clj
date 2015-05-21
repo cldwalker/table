@@ -59,7 +59,7 @@
              (map? (first table)) (map #(map (fn [k] (get % k)) fields) table)
              (map? table) table
              :else (rest table))
-       rows (map (fn [row] (map #(if (nil? %) "" (str %)) row)) rows)
+       rows (map (fn [row] (map #(if (nil? %) "" (pr-str %)) row)) rows)
        sort-opt (options :sort)
        rows (if (and sort-opt (some #{sort-opt} (conj fields true)))
               (sort-by
