@@ -1,3 +1,7 @@
+## 0.5.0
+* Add :style option to pass new style
+* Add :unicode-3d style
+
 ## 0.4.0
 * Add :fields option to control field ordering
 * Add :sort option to sort rows
