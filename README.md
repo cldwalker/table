@@ -78,9 +78,9 @@ table can also render custom styles:
                                  :header-walls ["  " "   " "  "]
                                  :body-walls ["  " "   " "  "] })
     ◤ ✈︎✈︎ ▼ ✈︎✈︎ ◥
-      10   20  
+      10   20
     ▶︎ ✂︎✂︎   ✂︎✂︎ ◀︎
-      3    4   
+      3    4
     ◣ ☺︎☺︎ ▲ ☺︎☺︎ ◢
 
 table can handle plain maps and vectors of course:
@@ -117,7 +117,7 @@ the repl: `export COLUMNS`. Alternatively you can bind/alter table.width/\*width
 width.
 
 ## Similar libraries
-* Clojure 1.5.0 comes with a similar function clojure.pprint/pprint-table
+* Clojure 1.5.0 comes with a similar function clojure.pprint/print-table
 * [doric](https://github.com/joegallo/doric) is more full-featured than print-table, supporting formats other than text. But it lacks support for handling many data structures and tests are weak.
 
 table improves on these by rendering more data structures, supporting
