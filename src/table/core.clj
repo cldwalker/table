@@ -77,6 +77,10 @@
       (concat rendered-rows [(format "%s rows in set" (count rows))])
       rendered-rows)))
 
+(defn- wrap-row
+  [row [beg mid end]]
+  (str beg (join mid row) end))
+
 (defn- render-rows-with-fields [rows fields options]
   (let [
     headers (map #(if (keyword? %) (name %) (str %)) fields)
@@ -85,7 +89,6 @@
               (map-indexed
                 (fn [idx string] (format-cell string (nth widths idx)))
                 row))
-    wrap-row (fn [row strings] (let [[beg mid end] strings] (str beg (join mid row) end)))
     headers (fmt-row headers)
     border-for (fn [section dash]
                  (let [dash-key (if (style-for dash) dash :dash)]
