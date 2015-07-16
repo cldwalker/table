@@ -10,6 +10,9 @@
   {
    :plain {:top ["+-" "-+-" "-+"], :middle ["+-" "-+-" "-+"] :bottom ["+-" "-+-" "-+"]
            :dash "-" :header-walls walls :body-walls walls }
+   :rst {:top ["+-" "-+-" "-+"], :middle ["+=" "=+=" "=+"] :bottom ["+-" "-+-" "-+"] :body ["+-" "-+-" "-+"]
+         :dash "-" :middle-dash "=" :header-walls walls :body-walls walls }
+
    :org {:top ["|-" "-+-" "-|"], :middle ["|-" "-+-" "-|"] :bottom ["|-" "-+-" "-|"]
          :dash "-" :header-walls walls :body-walls walls }
    :unicode {:top ["┌─" "─┬─" "─┐"] :middle ["├─" "─┼─" "─┤"] :bottom ["└─" "─┴─" "─┘"]
@@ -93,9 +96,12 @@
                                   widths)
                              (style-for section))))
     header (wrap-row headers (style-for :header-walls))
-    body (map #(wrap-row (fmt-row %) (style-for :body-walls)) rows) ]
+    body (map #(wrap-row (fmt-row %) (style-for :body-walls)) rows)
+    body (if (style-for :body)
+           (rest (interleave (repeat (border-for :body :body-dash)) body))
+           body)]
 
-    (concat [(border-for :top :top-dash) header (border-for :middle :dash)]
+    (concat [(border-for :top :top-dash) header (border-for :middle :middle-dash)]
             body [( border-for :bottom :bottom-dash)])))
 
 (defn- escape-newline [string]
