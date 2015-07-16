@@ -85,10 +85,7 @@
   (let [
     headers (map #(if (keyword? %) (name %) (str %)) fields)
     widths (table.width/get-widths (cons headers rows))
-    fmt-row (fn [row]
-              (map-indexed
-                (fn [idx string] (format-cell string (nth widths idx)))
-                row))
+    fmt-row (fn [row] (map format-cell row widths))
     headers (fmt-row headers)
     border-for (fn [section dash]
                  (let [dash-key (if (style-for dash) dash :dash)]
