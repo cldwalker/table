@@ -87,12 +87,11 @@
     widths (table.width/get-widths (cons headers rows))
     fmt-row (fn [row] (map format-cell row widths))
     headers (fmt-row headers)
-    border-for (fn [section dash]
-                 (let [dash-key (if (style-for dash) dash :dash)]
-                 (wrap-row
-                   (map #(apply str (repeat
-                                      (.length (str %))(style-for dash-key))) headers)
-                   (style-for section))))
+    border-for (fn [section dash-key]
+                 (let [dash (or (style-for dash-key) (style-for :dash))]
+                   (wrap-row (map #(join (repeat % dash))
+                                  widths)
+                             (style-for section))))
     header (wrap-row headers (style-for :header-walls))
     body (map #(wrap-row (fmt-row %) (style-for :body-walls)) rows) ]
 
