@@ -185,12 +185,58 @@
   (is (=
     (unindent
       "
+      +-------+
+      | value |
+      +-------+
+      +-------+
+      ")
+    (table-str nil))))
+
+
+(deftest test-table-with-empty-vec
+  (is (=
+    (unindent
+      "
+      +-------+
+      | value |
+      +-------+
+      +-------+
+      ")
+    (table-str []))))
+
+(deftest test-table-with-empty-map
+  (is (=
+    (unindent
+      "
+      +-------+
+      | value |
+      +-------+
+      +-------+
+      ")
+    (table-str {}))))
+
+(deftest test-table-with-vec-of-empty-vec
+  (is (=
+    (unindent
+      "
       +--+
       |  |
       +--+
       +--+
+      ")
+    (table-str [[]]))))
+
+(deftest test-table-with-vec-of-empty-map
+  (is (=
+    (unindent
       "
-    ))))
+      +--+
+      |  |
+      +--+
+      |  |
+      +--+
+      ")
+    (table-str [{}]))))
 
 (deftest test-table-with-org-style
   (is (=
@@ -289,11 +335,11 @@
       +---+---+---+
       | b | a | c |
       +---+---+---+
-      | 2 | 1 |   |
+      | 2 | 1 | 2 |
       | 4 | 3 |   |
       +---+---+---+
       ")
-    (table-str [{:a 1 :b 2} {:a 3 :b 4}] :fields [:b :a :c]))))
+    (table-str [{:a 1 :b 2 :c 2} {:a 3 :b 4 :d 7}] :fields [:b :a :c]))))
 
 (deftest test-table-with-maps-in-vec
   (is (=
@@ -377,3 +423,27 @@
 
 ;(defn test-ns-hook []
 ;  (test-table-with-top-level-map))
+
+(deftest test-table-inflation
+  (is (=
+    (unindent
+      "
+      +---+---+---+---+---+---+---+---+---+
+      | 0 |   |   |   |   |   |   |   |   |
+      +---+---+---+---+---+---+---+---+---+
+      | 0 | 1 |   |   |   |   |   |   |   |
+      | 0 | 1 | 2 |   |   |   |   |   |   |
+      | 0 | 1 | 2 | 3 |   |   |   |   |   |
+      | 0 | 1 | 2 | 3 | 4 |   |   |   |   |
+      | 0 | 1 | 2 | 3 | 4 | 5 |   |   |   |
+      | 0 | 1 | 2 | 3 | 4 | 5 | 6 |   |   |
+      | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |   |
+      | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+      +---+---+---+---+---+---+---+---+---+
+      ")
+    (table-str
+      (for [n (range 1 10)]
+        (range n))))))
+
+
+

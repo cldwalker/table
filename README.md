@@ -131,7 +131,7 @@ Please report them [on github](http://github.com/cldwalker/table/issues).
 
 ## TODO
 * Set default style
-* Handle no rows
-* Handle vecs with different sizes
+* ~~Handle no rows~~
+* ~~Handle vecs with different sizes~~
 * Look into auto-rendering database results in reply repl
 * Escape tabs
