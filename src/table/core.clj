@@ -43,6 +43,13 @@
   (binding [*style* (if (map? style) style (style styles))]
     (apply str (join "\n" (render-rows args (if (map? options) options {}))))))
 
+(defn- inflate
+  "Calculates the length of the longest row of columns, and returns the rows
+   each inflated to that number of columns."
+  [rows]
+  (let [max-cols (reduce max 0 (map count rows))]
+    (map #(take max-cols (lazy-cat % (repeat nil))) rows)))
+
 (defn- generate-rows-and-fields
   "Returns rows and fields. Rows are a vector of vectors containing string cell values."
   [table options]
@@ -53,12 +60,12 @@
                (map? (first table)) (or (:fields options)
                                         (distinct (vec (flatten (map keys table)))))
                (map? table) [:key :value]
-               :else (first table))
+               :else (first (inflate table)))
        rows (cond
              top-level-vec (map #(vector %) table)
              (map? (first table)) (map #(map (fn [k] (get % k)) fields) table)
              (map? table) table
-             :else (rest table))
+             :else (rest (inflate table)))
        rows (map (fn [row] (map #(if (nil? %) "" (str %)) row)) rows)
        sort-opt (options :sort)
        rows (if (and sort-opt (some #{sort-opt} (conj fields true)))
