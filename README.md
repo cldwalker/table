@@ -67,6 +67,12 @@ table can render different styles of tables:
     |--- | ---|
     | 3  | 4  |
 
+    user=> (table [ [10 20] [3 4]] :style :borderless)
+
+    10  20
+    ------
+    3   4
+
 table can also render custom styles:
 
     user> (table [[10 20] [3 4]] :style {:top ["◤ " " ▼ " " ◥"]
