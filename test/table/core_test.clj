@@ -238,6 +238,20 @@
       ") "\n")
     (table-str [[10 20] [3 4]] :style :github-markdown))))
 
+(deftest test-table-with-borderless-style
+  (is (=
+    (str
+      "\n"
+      "name    age  country    \n"
+      "------------------------\n"
+      "Jim     41   Poland     \n"
+      "Robert  11   New Zealand\n")
+    (table-str [
+      ["name"  "age" "country"]
+      ["Jim"    41   "Poland"]
+      ["Robert" 11   "New Zealand"]]
+      :style :borderless))))
+
 (deftest test-table-with-custom-style
   (is (=
     (unindent

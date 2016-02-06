@@ -19,6 +19,8 @@
                 :header-walls ["│ " " │ " " ║"] :body-walls ["│ " " │ " " ║"] }
    :github-markdown {:top ["" "" ""] :middle ["|-" " | " "-|"] :bottom ["" "" ""]
                      :top-dash "" :dash "-" :bottom-dash "" :header-walls walls :body-walls walls }
+   :borderless {:top ["" "" ""] :middle ["" "--" ""] :bottom ["" "" ""]
+                     :top-dash "" :dash "-" :bottom-dash "" :header-walls ["" "  " ""] :body-walls ["" "  " ""] }
    })
 
 (defn table
