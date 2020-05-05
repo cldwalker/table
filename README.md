@@ -1,42 +1,42 @@
 ## Description
 
-Display ascii tables that fit in your terminal for almost any data structure.
+This library displays ascii tables that automatically fit in your terminal and handle most data structures.
 
-[![Build Status](https://travis-ci.org/cldwalker/table.png?branch=master)](https://travis-ci.org/cldwalker/rubydoc)
+[![Build Status](https://travis-ci.org/cldwalker/table.png?branch=master)](https://travis-ci.org/cldwalker/table)
 
 ## Install
 
-To have it available on all projects, add to your leiningen2's ~/lein/profiles.clj:
-
-    {:user {:dependencies [[table "0.5.0"]] }}
-
-To have it on an individual project, add to your project.clj:
+To have it in a lein project, add to your project.clj:
 
     [table "0.5.0"]
 
+To have it in a deps.edn project, add to your deps.edn:
+
+    {table {:mvn/version "0.5.0"}}
+
+To have it in [babashka](https://github.com/borkdude/babashka):
+
+    export BABASHKA_CLASSPATH=$BABASHKA_CLASSPATH:$(clojure -Spath -Sdeps '{:deps {table {:mvn/version "0.5.0"}}}')
+
 ## Usage
-
-To use in a library:
-
-    (use '[table.core :only [table]])
 
 table handles rendering combinations of maps, vecs, lists and sets nested in one another.
 
     $ lein repl
-    user=> (use 'table.core)
+    user=> (require '[table.core :as t])
     nil
 
     ; These three yields the same table
-    user=> (table [["1" "2"] ["3" "4"]])
-    user=> (table '((1 2) (3 4)))
-    user=> (table #{[1 2] [3 4]})
+    user=> (t/table [["1" "2"] ["3" "4"]])
+    user=> (t/table '((1 2) (3 4)))
+    user=> (t/table #{[1 2] [3 4]})
     +---+---+
     | 1 | 2 |
     +---+---+
     | 3 | 4 |
     +---+---+
 
-    user=> (table [{:a 11} {:a 3 :b 22}])
+    user=> (t/table [{:a 11} {:a 3 :b 22}])
     +----+----+
     | a  | b  |
     +----+----+
@@ -46,14 +46,14 @@ table handles rendering combinations of maps, vecs, lists and sets nested in one
 
 table can render different styles of tables:
 
-    user=> (table [ [1 2] [3 4]] :style :unicode)
+    user=> (t/table [ [1 2] [3 4]] :style :unicode)
     ┌───┬───┐
     │ 1 │ 2 │
     ├───┼───┤
     │ 3 ╎ 4 │
     └───┴───┘
 
-    user=> (table [ [1 2] [3 4]] :style :org)
+    user=> (t/table [ [1 2] [3 4]] :style :org)
     |---+---|
     | 1 | 2 |
     |---+---|
@@ -61,7 +61,7 @@ table can render different styles of tables:
     |---+---|
 
     # Yes, these will generate tables for github's markdown
-    user=> (table [ [10 20] [3 4]] :style :github-markdown)
+    user=> (t/table [ [10 20] [3 4]] :style :github-markdown)
 
     | 10 | 20 |
     |--- | ---|
@@ -69,14 +69,14 @@ table can render different styles of tables:
 
 table can also render custom styles:
 
-    user> (table [[10 20] [3 4]] :style {:top ["◤ " " ▼ " " ◥"]
-                                 :top-dash "✈︎"
-                                 :middle ["▶︎ " "   " " ◀︎"]
-                                 :dash "✂︎"
-                                 :bottom ["◣ " " ▲ " " ◢"]
-                                 :bottom-dash "☺︎"
-                                 :header-walls ["  " "   " "  "]
-                                 :body-walls ["  " "   " "  "] })
+    user> (t/table [[10 20] [3 4]] :style {:top ["◤ " " ▼ " " ◥"]
+                                   :top-dash "✈︎"
+                                   :middle ["▶︎ " "   " " ◀︎"]
+                                   :dash "✂︎"
+                                   :bottom ["◣ " " ▲ " " ◢"]
+                                   :bottom-dash "☺︎"
+                                   :header-walls ["  " "   " "  "]
+                                   :body-walls ["  " "   " "  "] })
     ◤ ✈︎✈︎ ▼ ✈︎✈︎ ◥
       10   20
     ▶︎ ✂︎✂︎   ✂︎✂︎ ◀︎
@@ -85,7 +85,7 @@ table can also render custom styles:
 
 table can handle plain maps and vectors of course:
 
-    user=> (table (meta #'doc))
+    user=> (t/table (meta #'doc))
     +-----------+---------------------------------------------------------------+
     | key       | value                                                         |
     +-----------+---------------------------------------------------------------+
@@ -99,7 +99,7 @@ table can handle plain maps and vectors of course:
     | :file     | clojure/repl.clj                                              |
     +-----------+---------------------------------------------------------------+
 
-    user=> (table (seq (.getURLs (java.lang.ClassLoader/getSystemClassLoader))))
+    user=> (t/table (seq (.getURLs (java.lang.ClassLoader/getSystemClassLoader))))
     +--------------------------------------------------+
     | value                                            |
     +--------------------------------------------------|
@@ -118,20 +118,19 @@ width.
 
 ## Similar libraries
 * Clojure 1.5.0 comes with a similar function clojure.pprint/print-table
-* [doric](https://github.com/joegallo/doric) is more full-featured than print-table, supporting formats other than text. But it lacks support for handling many data structures and tests are weak.
+* [doric](https://github.com/joegallo/doric) is more full-featured than print-table, supporting
+  formats other than text.
 
-table improves on these by rendering more data structures, supporting
+table improves on these alternatives by rendering more data structures, supporting
 different ascii style tables and resizing to fit your terminal.
 
 ## Bugs/Issues
 Please report them [on github](http://github.com/cldwalker/table/issues).
 
 ## Contributing
-[See here](http://tagaholic.me/contributing.html)
+[See here](https://tagaholic.me/contributing.html)
 
 ## TODO
-* Set default style
 * Handle no rows
 * Handle vecs with different sizes
-* Look into auto-rendering database results in reply repl
 * Escape tabs
