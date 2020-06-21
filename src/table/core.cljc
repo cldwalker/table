@@ -1,6 +1,7 @@
 (ns table.core
   (:require table.width
-            #?(:cljs [goog.string.format]))
+            #?@(:cljs [[goog.string]
+                       [goog.string.format]]))
   (:use [clojure.string :only [join]]))
 
 (declare style-for format-cell render-rows-with-fields escape-newline render-rows table-str)
@@ -75,7 +76,9 @@
   (let [[rows fields] (generate-rows-and-fields table options)
         rendered-rows (render-rows-with-fields rows fields options)]
     (if (:desc options)
-      (concat rendered-rows [(format "%s rows in set" (count rows))])
+      (concat rendered-rows [(#?(:clj format
+                                 :cljs goog.string.format)
+                              "%s rows in set" (count rows))])
       rendered-rows)))
 
 (defn- render-rows-with-fields [rows fields options]
