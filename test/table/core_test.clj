@@ -145,18 +145,6 @@
       ")
     (table-str '([1 2] [3 4])))))
 
-(deftest test-table-with-sets-in-vec
-  (is (=
-    (unindent
-      "
-      +---+---+
-      | 1 | 2 |
-      +---+---+
-      | 3 | 4 |
-      +---+---+
-      ")
-    (table-str [#{1 2} #{3 4}]))))
-
 (deftest test-table-with-vecs-in-set
    (is (=
     (unindent

@@ -12,11 +12,9 @@ To have it in a lein project, add to your project.clj:
 
 To have it in a deps.edn project, add to your deps.edn:
 
-    {table {:mvn/version "0.5.0"}}
+    {table/table {:mvn/version "0.5.0"}}
 
-To have it in [babashka](https://github.com/borkdude/babashka):
-
-    export BABASHKA_CLASSPATH=$BABASHKA_CLASSPATH:$(clojure -Spath -Sdeps '{:deps {table {:mvn/version "0.5.0"}}}')
+To use with [babashka](https://github.com/babashka/babashka), add to bb.edn.
 
 ## Usage
 
