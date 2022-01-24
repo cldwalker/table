@@ -10,6 +10,9 @@
   {
    :plain {:top ["+-" "-+-" "-+"], :middle ["+-" "-+-" "-+"] :bottom ["+-" "-+-" "-+"]
            :dash "-" :header-walls walls :body-walls walls }
+   :rst {:top ["+-" "-+-" "-+"], :middle ["+=" "=+=" "=+"] :bottom ["+-" "-+-" "-+"] :body ["+-" "-+-" "-+"]
+         :dash "-" :middle-dash "=" :header-walls walls :body-walls walls }
+
    :org {:top ["|-" "-+-" "-|"], :middle ["|-" "-+-" "-|"] :bottom ["|-" "-+-" "-|"]
          :dash "-" :header-walls walls :body-walls walls }
    :unicode {:top ["┌─" "─┬─" "─┐"] :middle ["├─" "─┼─" "─┤"] :bottom ["└─" "─┴─" "─┘"]
@@ -77,26 +80,28 @@
       (concat rendered-rows [(format "%s rows in set" (count rows))])
       rendered-rows)))
 
+(defn- wrap-row
+  [row [beg mid end]]
+  (str beg (join mid row) end))
+
 (defn- render-rows-with-fields [rows fields options]
   (let [
     headers (map #(if (keyword? %) (name %) (str %)) fields)
     widths (table.width/get-widths (cons headers rows))
-    fmt-row (fn [row]
-              (map-indexed
-                (fn [idx string] (format-cell string (nth widths idx)))
-                row))
-    wrap-row (fn [row strings] (let [[beg mid end] strings] (str beg (join mid row) end)))
+    fmt-row (fn [row] (map format-cell row widths))
     headers (fmt-row headers)
-    border-for (fn [section dash]
-                 (let [dash-key (if (style-for dash) dash :dash)]
-                 (wrap-row
-                   (map #(apply str (repeat
-                                      (.length (str %))(style-for dash-key))) headers)
-                   (style-for section))))
+    border-for (fn [section dash-key]
+                 (let [dash (or (style-for dash-key) (style-for :dash))]
+                   (wrap-row (map #(join (repeat % dash))
+                                  widths)
+                             (style-for section))))
     header (wrap-row headers (style-for :header-walls))
-    body (map #(wrap-row (fmt-row %) (style-for :body-walls)) rows) ]
+    body (map #(wrap-row (fmt-row %) (style-for :body-walls)) rows)
+    body (if (style-for :body)
+           (rest (interleave (repeat (border-for :body :body-dash)) body))
+           body)]
 
-    (concat [(border-for :top :top-dash) header (border-for :middle :dash)]
+    (concat [(border-for :top :top-dash) header (border-for :middle :middle-dash)]
             body [( border-for :bottom :bottom-dash)])))
 
 (defn- escape-newline [string]
