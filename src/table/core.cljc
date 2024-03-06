@@ -1,6 +1,8 @@
 (ns table.core
-  (:require table.width)
-  (:use [clojure.string :only [join]] ))
+  (:require table.width
+            #?@(:cljs [[goog.string]
+                       [goog.string.format]]))
+  (:use [clojure.string :only [join]]))
 
 (declare style-for format-cell render-rows-with-fields escape-newline render-rows table-str)
 
@@ -74,7 +76,9 @@
   (let [[rows fields] (generate-rows-and-fields table options)
         rendered-rows (render-rows-with-fields rows fields options)]
     (if (:desc options)
-      (concat rendered-rows [(format "%s rows in set" (count rows))])
+      (concat rendered-rows [(#?(:clj format
+                                 :cljs goog.string.format)
+                              "%s rows in set" (count rows))])
       rendered-rows)))
 
 (defn- render-rows-with-fields [rows fields options]
@@ -91,7 +95,9 @@
                  (let [dash-key (if (style-for dash) dash :dash)]
                  (wrap-row
                    (map #(apply str (repeat
-                                      (.length (str %))(style-for dash-key))) headers)
+                                      (#?(:clj .length
+                                          :cljs .-length) (str %))
+                                      (style-for dash-key))) headers)
                    (style-for section))))
     header (wrap-row headers (style-for :header-walls))
     body (map #(wrap-row (fmt-row %) (style-for :body-walls)) rows) ]
@@ -100,14 +106,15 @@
             body [( border-for :bottom :bottom-dash)])))
 
 (defn- escape-newline [string]
-  (clojure.string/replace string (str \newline) (char-escape-string \newline)))
+  (clojure.string/replace string "\n" "\\n"))
 
 (defn- style-for [k] (k *style*))
 
 (defn format-cell [string width]
   (if (zero? width)
     ""
-    (format
+    (#?(:clj format
+        :cljs goog.string.format)
       (str "%-" width "." width "s")
       (if (> (count string) width)
         (str (.substring string 0 (- width 3)) "...")
